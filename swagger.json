@@ -1,0 +1,272 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Swagger Express API",
+      "version": "1.0.0",
+      "description": "Swagger para API Rest Proyecto distribuido"
+    },
+    "paths": {
+      "/api/listas/getAllLists": {
+        "get": {
+          "summary": "Obtiene todas las listas de reproducción.",
+          "description": "Retorna todas las listas de reproducción almacenadas en la base de datos.",
+          "responses": {
+            "200": {
+              "description": "Lista de reproducción obtenida correctamente.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "ID único de la lista de reproducción."
+                        },
+                        "id_usuario": {
+                          "type": "string",
+                          "description": "ID del usuario propietario de la lista de reproducción."
+                        },
+                        "nombre": {
+                          "type": "string",
+                          "description": "Nombre de la lista de reproducción."
+                        },
+                        "canciones": {
+                          "type": "array",
+                          "description": "Lista de IDs de canciones incluidas en la lista de reproducción.",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": [
+                            "ni5o2435boidfadsf",
+                            "432oi5jn2l3k4n5on"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No se encontraron listas de reproducción en la base de datos."
+            },
+            "500": {
+              "description": "Error al obtener las listas de reproducción desde la base de datos."
+            }
+          }
+        }
+      },
+      "/api/listas/addListWithSong": {
+        "post": {
+          "summary": "Agrega una nueva lista de reproducción con canción.",
+          "description": "Agrega una nueva lista de reproducción con canción a la base de datos.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "string",
+                      "description": "Nombre de la lista de reproducción."
+                    },
+                    "id_usuario": {
+                      "type": "string",
+                      "description": "ID del usuario propietario de la lista de reproducción."
+                    },
+                    "publico": {
+                      "type": "boolean",
+                      "description": "Bool para saber si es una lista publica o no"
+                    },
+                    "canciones": {
+                      "type": "array",
+                      "description": "Lista de IDs de canciones incluidas en la lista de reproducción.",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Lista de reproducción agregada correctamente.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID único de la nueva lista de reproducción."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Los datos proporcionados son inválidos."
+            },
+            "500": {
+              "description": "Error al agregar la lista de reproducción en la base de datos."
+            }
+          }
+        }
+      },
+      "/api/listas/addList": {
+        "post": {
+          "summary": "Agrega una nueva lista de reproducción.",
+          "description": "Agrega una nueva lista de reproducción a la base de datos.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "string",
+                      "description": "Nombre de la lista de reproducción."
+                    },
+                    "id_usuario": {
+                      "type": "string",
+                      "description": "ID del usuario propietario de la lista de reproducción."
+                    },
+                    "publico": {
+                      "type": "boolean",
+                      "description": "Bool para saber si es una lista publica o no"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Lista de reproducción agregada correctamente.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID único de la nueva lista de reproducción."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Los datos proporcionados son inválidos."
+            },
+            "500": {
+              "description": "Error al agregar la lista de reproducción en la base de datos."
+            }
+          }
+        }
+      },
+      "/api/listas/addSongs/{idList}": {
+        "post": {
+          "summary": "Agrega canciones a una lista de reproducción existente.",
+          "description": "Agrega nuevas canciones a una lista de reproducción existente en la base de datos.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idList",
+              "required": true,
+              "description": "ID de la lista de reproducción a la que se agregarán las canciones.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "canciones": {
+                      "type": "array",
+                      "description": "Lista de IDs de canciones a agregar.",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Canciones agregadas correctamente a la lista de reproducción."
+            },
+            "400": {
+              "description": "Las canciones proporcionadas son inválidas."
+            },
+            "404": {
+              "description": "La lista de reproducción no existe."
+            },
+            "500": {
+              "description": "Error al agregar canciones a la lista de reproducción en la base de datos."
+            }
+          }
+        }
+      },
+      "/api/listas/deleteSong/{idList}": {
+        "delete": {
+          "summary": "Elimina una canción de una lista de reproducción.",
+          "description": "Elimina una canción específica de una lista de reproducción existente en la base de datos.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idList",
+              "required": true,
+              "description": "ID de la lista de reproducción de la que se eliminará la canción.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "idCancion": {
+                      "type": "string",
+                      "description": "Id de la cancion."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Canción eliminada correctamente de la lista de reproducción."
+            },
+            "404": {
+              "description": "La lista de reproducción o la canción no existen."
+            },
+            "500": {
+              "description": "Error al eliminar la canción de la lista de reproducción en la base de datos."
+            }
+          }
+        }
+      }
+    }
+  }
+  
