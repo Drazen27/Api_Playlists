@@ -234,7 +234,7 @@
             }
           },
           "responses": {
-            "201": {
+            "200": {
               "description": "Lista de reproducción agregada correctamente.",
               "content": {
                 "application/json": {
@@ -288,7 +288,7 @@
             }
           },
           "responses": {
-            "201": {
+            "200": {
               "description": "Lista de reproducción agregada correctamente.",
               "content": {
                 "application/json": {
