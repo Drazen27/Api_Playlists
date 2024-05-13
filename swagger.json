@@ -58,6 +58,146 @@
           }
         }
       },
+      "/api/listas/getList/{idList}": {
+        "get": {
+          "summary": "Obtener una lista de reproducción por su ID",
+          "description": "Este endpoint permite obtener una lista de reproducción específica mediante su ID.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idList",
+              "required": true,
+              "description": "ID de la lista de reproducción a la que se agregarán las canciones.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "id_usuario": {
+                        "type": "string",
+                        "description": "ID del usuario propietario de la lista de reproducción."
+                      },
+                      "nombre": {
+                        "type": "string",
+                        "description": "Nombre de la lista de reproducción."
+                      },
+                      "canciones": {
+                        "type": "array",
+                        "description": "Lista de IDs de canciones incluidas en la lista de reproducción.",
+                        "items": {
+                          "type": "string"
+                        },
+                        "example": [
+                          "ni5o2435boidfadsf",
+                          "432oi5jn2l3k4n5on"
+                        ]
+                      }
+                     
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "La lista de reproducción no existe",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Error interno del servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/listas/getListsByName/{nombreLista}": {
+        "get": {
+          "summary": "Obtener listas de reproducción por nombre",
+          "description": "Retorna todas las listas de reproducción que tienen el mismo nombre especificado.",
+          "parameters": [
+            {
+              "name": "nombreLista",
+              "in": "path",
+              "description": "Nombre de la lista de reproducción a buscar.",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de reproducción obtenida correctamente.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "ID único de la lista de reproducción."
+                        },
+                        "id_usuario": {
+                          "type": "string",
+                          "description": "ID del usuario propietario de la lista de reproducción."
+                        },
+                        "nombre": {
+                          "type": "string",
+                          "description": "Nombre de la lista de reproducción."
+                        },
+                        "canciones": {
+                          "type": "array",
+                          "description": "Lista de IDs de canciones incluidas en la lista de reproducción.",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No se encontraron listas de reproducción con ese nombre."
+            },
+            "500": {
+              "description": "Error al obtener las listas de reproducción desde la base de datos."
+            }
+          }
+        }
+      },
       "/api/listas/addListWithSong": {
         "post": {
           "summary": "Agrega una nueva lista de reproducción con canción.",

@@ -1,6 +1,5 @@
 import express, { Request, Response, Router } from 'express';
 import { db } from '../../firebase';
-
 const router: Router = express.Router();
 
 // Define la ruta /listas/getAllListas
@@ -32,6 +31,81 @@ router.get('/listas/getAllLists', async (req: Request, res: Response) => {
   }
 });
 
+router.get('/listas/getList/:idList', async (req: Request, res: Response) => {
+  try {
+    // Realiza una consulta a Firestore para obtener todas las listas de reproducción
+    const idLista: string = req.params.idList;
+
+    // Verifica si la lista de reproducción existe
+    const listaSnapshot:any = await db.collection('playlist').doc(idLista).get();
+    if (!listaSnapshot.exists) {
+      return res.status(404).json({ error: 'La lista de reproducción no existe' });
+    }
+
+    res.status(200).json(listaSnapshot.data());
+    
+  } catch (error) {
+    console.error('Error al obtener las listas de reproducción:', error);
+    res.status(500).json({ error: 'Error al obtener las listas de reproducción' });
+  }
+});
+
+router.get('/listas/getListsByName/:nombreLista', async (req: Request, res: Response) => {
+  try {
+    // Nombre de la lista a buscar
+    const nombreLista: string = req.params.nombreLista;
+
+    // Realiza una consulta a Firestore para encontrar las listas con el mismo nombre
+    const querySnapshot = await db.collection('playlist').where('nombre', '==', nombreLista).get();
+
+    // Array para almacenar las listas encontradas
+    const listasEncontradas: any[] = [];
+
+    // Iterar sobre los resultados de la consulta
+    querySnapshot.forEach(doc => {
+      // Agregar los datos de cada lista encontrada al array
+      listasEncontradas.push({
+        id: doc.id,
+        nombre: doc.data().nombre,
+        id_usuario: doc.data().id_usuario,
+        publico: doc.data().publico,
+        canciones: doc.data().canciones,
+        estado: doc.data().estado
+      });
+    });
+
+    // Verificar si se encontraron listas
+    if (listasEncontradas.length === 0) {
+      return res.status(404).json({ error: 'No se encontraron listas de reproducción con ese nombre' });
+    }
+
+    // Devolver las listas encontradas
+    res.status(200).json(listasEncontradas);
+    
+  } catch (error) {
+    console.error('Error al obtener las listas de reproducción por nombre:', error);
+    res.status(500).json({ error: 'Error al obtener las listas de reproducción por nombre' });
+  }
+});
+
+router.get('/listas/getList/:nombreList', async (req: Request, res: Response) => {
+  try {
+    // Realiza una consulta a Firestore para obtener todas las listas de reproducción
+    const idLista: string = req.params.nombreList;
+
+    // Verifica si la lista de reproducción existe
+    const listaSnapshot:any = await db.collection('playlist').doc(idLista).get();
+    if (!listaSnapshot.exists) {
+      return res.status(404).json({ error: 'La lista de reproducción no existe' });
+    }
+
+    res.status(200).json(listaSnapshot.data());
+    
+  } catch (error) {
+    console.error('Error al obtener las listas de reproducción:', error);
+    res.status(500).json({ error: 'Error al obtener las listas de reproducción' });
+  }
+});
 
 router.post('/listas/addListWithSong', async (req: Request, res: Response) => {
   try {
@@ -61,7 +135,7 @@ router.post('/listas/addListWithSong', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/listas/addList', async (req: Request, res: Response) => {
+router.post('/listas/addList',async (req: Request, res: Response) => {
   try {
     // Obtén los datos del cuerpo de la solicitud
     const { nombre, id_usuario, publico } = req.body;
@@ -90,7 +164,7 @@ router.post('/listas/addList', async (req: Request, res: Response) => {
 });
 
 
-router.post('/listas/addSongs/:idList', async (req: Request, res: Response) => {
+router.post('/listas/addSongs/:idList',async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
@@ -124,7 +198,7 @@ router.post('/listas/addSongs/:idList', async (req: Request, res: Response) => {
 });
 
 // Define la ruta DELETE /listas/deleteCancion/:idLista/
-router.delete('/listas/deleteSong/:idList', async (req: Request, res: Response) => {
+router.delete('/listas/deleteSong/:idList',async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción y el ID de la canción desde los parámetros de la URL
     const idLista: string = req.params.idList;
