@@ -3,7 +3,7 @@ import express, { Express, Request, Response,Router } from "express";
 import dotenv from "dotenv";
 import listaRoute from "./routes/listasRoute"
 import swaggerUi from 'swagger-ui-express'
-import swaggerDocument from "../swagger.json";
+import swaggerDocument from "./swagger/swagger.json";
 var cors = require('cors')
 
 dotenv.config();
