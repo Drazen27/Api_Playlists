@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import listaRoute from "./routes/listasRoute"
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from "./swagger/swagger.json";
+const CSS_URL =
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+
 var cors = require('cors')
 
 dotenv.config();
@@ -37,7 +40,7 @@ app.use(allowCors);
 app.use(express.json());
 
 app.use("/api",cors(corsOptions),listaRoute);
-app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
+app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument,{ customCssUrl: CSS_URL }))
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
