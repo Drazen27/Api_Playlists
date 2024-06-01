@@ -21,7 +21,7 @@ const allowCors = (req: Request, res: Response, next: () => void) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // Define métodos permitidos
   if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
     return res.status(200).json({});
   }
   next();
@@ -37,7 +37,7 @@ app.use(allowCors);
 app.use(express.json());
 
 app.use("/api",cors(corsOptions),listaRoute);
-app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
+app.use("/swagger-ui/index.html",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");

@@ -4,6 +4,7 @@ const router: Router = express.Router();
 import {Playlist} from '../models/playlist';
 import {PlaylistResponse} from '../dataContract/response/playlistResponse';
 import { PlaylistRequest } from '../dataContract/request/playlistRequest';
+import { PlaylistSongRequest } from '../dataContract/request/playlistSongRequest';
 
 // getAlllist
 router.get('/listas/getAllLists', async (req: Request, res: Response) => {
@@ -61,7 +62,118 @@ router.get('/listas/getAllLists', async (req: Request, res: Response) => {
     res.status(500).json(response);
   }
 });
+// Endpoint para obtener todas las listas de reproducción activas
+router.get('/listas/getAllListsActive', async (req: Request, res: Response) => {
+  try {
+    // Realiza una consulta a Firestore para obtener todas las listas de reproducción activas
+    const listasRef = db.collection('playlist').where('estado', '==', true);
+    const snapshot = await listasRef.get();
 
+    if (snapshot.empty) {
+      // Si no hay documentos en la colección, envía una respuesta de error 404
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'No se encontraron listas de reproducción activas',
+        errorCode: 'NOT_FOUND',
+        errorMessage: 'No hay documentos en la colección',
+        data: []  // Asegúrate de incluir la propiedad data, aunque esté vacía
+      };
+      res.status(404).json(response);
+    } else {
+      // Si hay documentos, crea un array para almacenar los datos de cada documento
+      const listas: Playlist[] = [];
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const playlist: Playlist = {
+          id: doc.id,
+          nombre: data.nombre,
+          id_usuario: data.id_usuario,
+          canciones: data.canciones,
+          estado: data.estado,
+          publico: data.publico
+        };
+        listas.push(playlist);
+      });
+      // Envía una respuesta exitosa con las listas de reproducción activas
+      const response: PlaylistResponse = {
+        success: true,
+        message: 'Listas de reproducción activas obtenidas correctamente',
+        errorCode:'',
+        errorMessage:'',
+        data: listas
+      };
+      res.status(200).json(response);
+    }
+  } catch (error) {
+    // Si ocurre un error, envía una respuesta de error 500
+    console.error('Error al obtener las listas de reproducción activas:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al obtener las listas de reproducción activas',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage,
+      data: []  // Asegúrate de incluir la propiedad data, aunque esté vacía
+    };
+    res.status(500).json(response);
+  }
+});
+// Endpoint para obtener todas las listas de reproducción inactivas
+router.get('/listas/getAllListsInactive', async (req: Request, res: Response) => {
+  try {
+    // Realiza una consulta a Firestore para obtener todas las listas de reproducción inactivas
+    const listasRef = db.collection('playlist').where('estado', '==', false);
+    const snapshot = await listasRef.get();
+
+    if (snapshot.empty) {
+      // Si no hay documentos en la colección, envía una respuesta de error 404
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'No se encontraron listas de reproducción inactivas',
+        errorCode: 'NOT_FOUND',
+        errorMessage: 'No hay documentos en la colección',
+        data: []  // Asegúrate de incluir la propiedad data, aunque esté vacía
+      };
+      res.status(404).json(response);
+    } else {
+      // Si hay documentos, crea un array para almacenar los datos de cada documento
+      const listas: Playlist[] = [];
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const playlist: Playlist = {
+          id: doc.id,
+          nombre: data.nombre,
+          id_usuario: data.id_usuario,
+          canciones: data.canciones,
+          estado: data.estado,
+          publico: data.publico
+        };
+        listas.push(playlist);
+      });
+      // Envía una respuesta exitosa con las listas de reproducción inactivas
+      const response: PlaylistResponse = {
+        success: true,
+        message: 'Listas de reproducción inactivas obtenidas correctamente',
+        errorCode:'',
+        errorMessage:'',
+        data: listas
+      };
+      res.status(200).json(response);
+    }
+  } catch (error) {
+    // Si ocurre un error, envía una respuesta de error 500
+    console.error('Error al obtener las listas de reproducción inactivas:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al obtener las listas de reproducción inactivas',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage,
+      data: []  // Asegúrate de incluir la propiedad data, aunque esté vacía
+    };
+    res.status(500).json(response);
+  }
+});
 // Define la ruta /listas/getList/:idList
 router.get('/listas/getList/:idList', async (req: Request, res: Response) => {
   try {
@@ -280,7 +392,14 @@ router.post('/listas/addListWithSong', async (req: Request, res: Response) => {
       message: 'Lista de reproducción con canciones agregada correctamente',
       errorCode: '',
       errorMessage: '',
-      data: [{ id: nuevaListaRef.id }]
+      data: [{
+        id: nuevaListaRef.id,
+        nombre,
+        id_usuario,
+        canciones,
+        estado: true,
+        publico
+      }]
     };
     res.status(201).json(response);
   } catch (error) {
@@ -298,75 +417,473 @@ router.post('/listas/addListWithSong', async (req: Request, res: Response) => {
 });
 
 
-
-
-router.post('/listas/addSongs/:idList',async (req: Request, res: Response) => {
+router.post('/listas/addSongs/:idList', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
 
     // Verifica si la lista de reproducción existe
-    const listaSnapshot:any = await db.collection('playlist').doc(idLista).get();
+    const listaSnapshot = await db.collection('playlist').doc(idLista).get();
     if (!listaSnapshot.exists) {
-      return res.status(404).json({ error: 'La lista de reproducción no existe' });
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'La lista de reproducción no existe',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
     }
 
     // Obtén las nuevas canciones desde el cuerpo de la solicitud
-    const { canciones } = req.body;
+    const { canciones }: PlaylistRequest = req.body;
 
     // Valida las nuevas canciones
     if (!canciones || !Array.isArray(canciones)) {
-      return res.status(400).json({ error: 'Las canciones proporcionadas son inválidas' });
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'Las canciones proporcionadas son inválidas',
+        errorCode: 'INVALID_DATA',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(400).json(response);
     }
 
     // Agrega las nuevas canciones a la lista de reproducción
+    const listaData = listaSnapshot.data();
     await db.collection('playlist').doc(idLista).update({
-      canciones: [...listaSnapshot.data().canciones, ...canciones]
+      canciones: [...listaData?.canciones, ...canciones]
     });
 
     // Envía una respuesta exitosa
-    res.status(200).json({ message: 'Canciones agregadas correctamente a la lista de reproducción' });
+    const response: PlaylistResponse = {
+      success: true,
+      message: 'Canciones agregadas correctamente a la lista de reproducción',
+      errorCode: '',
+      errorMessage: '',
+      data: [{
+        id: idLista,
+        nombre: listaData?.nombre,
+        id_usuario: listaData?.id_usuario,
+        canciones: [...listaData?.canciones, ...canciones],
+        estado: listaData?.estado,
+        publico: listaData?.publico 
+      }]
+    };
+    res.status(200).json(response);
   } catch (error) {
     // Si ocurre un error, envía una respuesta de error
     console.error('Error al agregar canciones a la lista de reproducción:', error);
-    res.status(500).json({ error: 'Error al agregar canciones a la lista de reproducción' });
+    const errorMessage = error instanceof Error ? error.message : '';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al agregar canciones a la lista de reproducción',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage,
+      data: []
+    };
+    res.status(500).json(response);
   }
 });
 
-// Define la ruta DELETE /listas/deleteCancion/:idLista/
-router.delete('/listas/deleteSong/:idList',async (req: Request, res: Response) => {
-  try {
-    // Obtén el ID de la lista de reproducción y el ID de la canción desde los parámetros de la URL
-    const idLista: string = req.params.idList;
-    const { idCancion }: { idCancion: string } = req.body;
 
+// Define la ruta DELETE /listas/deleteCancion/:idLista/
+router.delete('/listas/deleteSong/:idList', async (req: Request, res: Response) => {
+  try {
+    // Obtén el ID de la lista de reproducción desde los parámetros de la URL
+    const idLista: string = req.params.idList;
+    // Obtén el ID de la canción desde el cuerpo de la solicitud
+    const { idCancion }: PlaylistSongRequest = req.body;
+
+    // Valida el ID de la canción
     if (!idCancion) {
-      return res.status(400).json({ error: 'Los datos proporcionados son inválidos' });
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'Los datos proporcionados son inválidos',
+        errorCode: 'INVALID_DATA',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(400).json(response);
     }
 
     // Verifica si la lista de reproducción existe
-    const listaSnapshot:any = await db.collection('playlist').doc(idLista).get();
+    const listaSnapshot = await db.collection('playlist').doc(idLista).get();
     if (!listaSnapshot.exists) {
-      return res.status(404).json({ error: 'La lista de reproducción no existe' });
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'La lista de reproducción no existe',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
     }
 
     // Verifica si la canción está presente en la lista de reproducción
     const listaData = listaSnapshot.data();
-    if (!listaData.canciones.includes(idCancion)) {
-      return res.status(404).json({ error: 'La canción no está presente en la lista de reproducción' });
+    if (!listaData?.canciones.includes(idCancion)) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'La canción no está presente en la lista de reproducción',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
     }
 
     // Elimina la canción de la lista de reproducción
+    const nuevasCanciones = listaData.canciones.filter((cancionId: string) => cancionId !== idCancion);
     await db.collection('playlist').doc(idLista).update({
-      canciones: listaData.canciones.filter((cancionId: string) => cancionId !== idCancion)
+      canciones: nuevasCanciones
     });
 
     // Envía una respuesta exitosa
-    res.status(200).json({ message: 'Canción eliminada correctamente de la lista de reproducción' });
+    const response: PlaylistResponse = {
+      success: true,
+      message: 'Canción eliminada correctamente de la lista de reproducción',
+      errorCode: '',
+      errorMessage: '',
+      data: [{
+        id: idLista,
+        nombre: listaData.nombre,
+        id_usuario: listaData.id_usuario,
+        canciones: nuevasCanciones,
+        estado: listaData.estado,
+        publico: listaData.publico
+      }]
+    };
+    res.status(200).json(response);
   } catch (error) {
     // Si ocurre un error, envía una respuesta de error
     console.error('Error al eliminar la canción de la lista de reproducción:', error);
-    res.status(500).json({ error: 'Error al eliminar la canción de la lista de reproducción' });
+    const errorMessage = error instanceof Error ? error.message : '';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al eliminar la canción de la lista de reproducción',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage: errorMessage,
+      data: []
+    };
+    res.status(500).json(response);
+  }
+});
+router.delete('/listas/deletePlaylist/:idList', async (req: Request, res: Response) => {
+  try {
+    // Obtén el ID de la lista de reproducción desde los parámetros de la URL
+    const idLista: string = req.params.idList;
+
+    // Verifica si la lista de reproducción existe
+    const listaSnapshot = await db.collection('playlist').doc(idLista).get();
+    if (!listaSnapshot.exists) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'La lista de reproducción no existe',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
+    }
+    // Elimina la lista de reproducción
+    await db.collection('playlist').doc(idLista).delete();
+
+    // Envía una respuesta exitosa
+    const response: PlaylistResponse = {
+      success: true,
+      message: 'Lista de reproducción eliminada correctamente',
+      errorCode: '',
+      errorMessage: '',
+      data: []
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    // Si ocurre un error, envía una respuesta de error
+    console.error('Error al eliminar la lista de reproducción:', error);
+    const errorMessage = error instanceof Error ? error.message : '';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al eliminar la lista de reproducción',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage: errorMessage,
+      data: []
+    };
+    res.status(500).json(response);
+  }
+});
+//desactivarPlaylist
+router.patch('/listas/deactivatePlaylist/:idList', async (req: Request, res: Response) => {
+  try {
+    // Obtén el ID de la lista de reproducción desde los parámetros de la URL
+    const idLista: string = req.params.idList;
+
+    // Verifica si la lista de reproducción existe
+    const listaSnapshot = await db.collection('playlist').doc(idLista).get();
+    if (!listaSnapshot.exists) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'La lista de reproducción no existe',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
+    }
+
+    // Cambia el campo 'estado' a false para desactivar la lista de reproducción
+    await db.collection('playlist').doc(idLista).update({
+      estado: false
+    });
+
+    // Envía una respuesta exitosa con los datos actualizados
+    const listaData = listaSnapshot.data();
+    const updatedData: Playlist = {
+      id: idLista,
+      nombre: listaData?.nombre || '',
+      id_usuario: listaData?.id_usuario || '',
+      canciones: listaData?.canciones || [],
+      estado: false,
+      publico: listaData?.publico || false
+    };
+
+    const response: PlaylistResponse = {
+      success: true,
+      message: 'Lista de reproducción desactivada correctamente (estado actualizado a false)',
+      errorCode: '',
+      errorMessage: '',
+      data: [updatedData]
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    // Si ocurre un error, envía una respuesta de error
+    console.error('Error al desactivar la lista de reproducción:', error);
+    const errorMessage = error instanceof Error ? error.message : '';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al desactivar la lista de reproducción',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage: errorMessage,
+      data: []
+    };
+    res.status(500).json(response);
+  }
+});
+//Activar playlist
+router.patch('/listas/activatePlaylist/:idList', async (req: Request, res: Response) => {
+  try {
+    // Obtén el ID de la lista de reproducción desde los parámetros de la URL
+    const idLista: string = req.params.idList;
+
+    // Verifica si la lista de reproducción existe
+    const listaSnapshot = await db.collection('playlist').doc(idLista).get();
+    if (!listaSnapshot.exists) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'La lista de reproducción no existe',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
+    }
+
+    // Cambia el campo 'estado' a true para activar la lista de reproducción
+    await db.collection('playlist').doc(idLista).update({
+      estado: true
+    });
+
+    // Envía una respuesta exitosa con los datos actualizados
+    const listaData = listaSnapshot.data();
+    const updatedData: Playlist = {
+      id: idLista,
+      nombre: listaData?.nombre || '',
+      id_usuario: listaData?.id_usuario || '',
+      canciones: listaData?.canciones || [],
+      estado: true,
+      publico: listaData?.publico || false
+    };
+
+    const response: PlaylistResponse = {
+      success: true,
+      message: 'Lista de reproducción activada correctamente (estado actualizado a true)',
+      errorCode: '',
+      errorMessage: '',
+      data: [updatedData]
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    // Si ocurre un error, envía una respuesta de error
+    console.error('Error al activar la lista de reproducción:', error);
+    const errorMessage = error instanceof Error ? error.message : '';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al activar la lista de reproducción',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage: errorMessage,
+      data: []
+    };
+    res.status(500).json(response);
+  }
+});
+//Cambiar titulo
+router.patch('/listas/updateTitle/:idList', async (req: Request, res: Response) => {
+  try {
+    // Obtén el ID de la lista de reproducción desde los parámetros de la URL
+    const idLista: string = req.params.idList;
+
+    // Obtén el nuevo título del cuerpo de la solicitud
+    const { nombre }: PlaylistRequest = req.body;
+
+    // Valida los datos recibidos
+    if (!nombre) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'El título proporcionado es inválido',
+        errorCode: 'INVALID_DATA',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(400).json(response);
+    }
+
+    // Verifica si la lista de reproducción existe
+    const listaSnapshot = await db.collection('playlist').doc(idLista).get();
+    if (!listaSnapshot.exists) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'La lista de reproducción no existe',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
+    }
+
+    // Extrae los datos existentes de la lista de reproducción
+    const listaData = listaSnapshot.data();
+   
+
+    // Actualiza el título de la lista de reproducción
+    await db.collection('playlist').doc(idLista).update({
+      nombre
+    });
+
+    // Envía una respuesta exitosa con los datos actualizados
+    const updatedData = {
+      id: idLista,
+      nombre,
+      id_usuario: listaData?.id_usuario,
+      canciones: listaData?.canciones,
+      estado: listaData?.estado,
+      publico: listaData?.publico,
+    } as Playlist;
+
+    const response: PlaylistResponse = {
+      success: true,
+      message: 'Título de la lista de reproducción actualizado correctamente',
+      errorCode: '',
+      errorMessage: '',
+      data: [updatedData]
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    // Si ocurre un error, envía una respuesta de error
+    console.error('Error al actualizar el título de la lista de reproducción:', error);
+    const errorMessage = error instanceof Error ? error.message : '';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al actualizar el título de la lista de reproducción',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage: errorMessage,
+      data: []
+    };
+    res.status(500).json(response);
+  }
+});
+//Cambiar estado publico
+router.patch('/listas/updatePublic/:idList', async (req: Request, res: Response) => {
+  try {
+    // Obtén el ID de la lista de reproducción desde los parámetros de la URL
+    const idLista: string = req.params.idList;
+
+    // Obtén el nuevo valor de 'publico' del cuerpo de la solicitud
+    const { publico }: PlaylistRequest = req.body;
+
+    // Valida los datos recibidos
+    if (typeof publico !== 'boolean') {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'El valor proporcionado para "publico" es inválido',
+        errorCode: 'INVALID_DATA',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(400).json(response);
+    }
+
+    // Verifica si la lista de reproducción existe
+    const listaSnapshot = await db.collection('playlist').doc(idLista).get();
+    if (!listaSnapshot.exists) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'La lista de reproducción no existe',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
+    }
+
+    // Extrae los datos existentes de la lista de reproducción
+    const listaData = listaSnapshot.data();
+    if (!listaData) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'Error al obtener los datos de la lista de reproducción',
+        errorCode: 'DATA_NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(500).json(response);
+    }
+
+    // Actualiza el campo 'publico' de la lista de reproducción
+    await db.collection('playlist').doc(idLista).update({
+      publico
+    });
+
+    // Envía una respuesta exitosa con los datos actualizados
+    const updatedData = {
+      id: idLista,
+      nombre: listaData.nombre,
+      id_usuario: listaData.id_usuario,
+      canciones: listaData.canciones,
+      estado: listaData.estado,
+      publico,
+    } as Playlist;
+
+    const response: PlaylistResponse = {
+      success: true,
+      message: 'Campo "publico" de la lista de reproducción actualizado correctamente',
+      errorCode: '',
+      errorMessage: '',
+      data: [updatedData]
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    // Si ocurre un error, envía una respuesta de error
+    console.error('Error al actualizar el campo "publico" de la lista de reproducción:', error);
+    const errorMessage = error instanceof Error ? error.message : '';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al actualizar el campo "publico" de la lista de reproducción',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage: errorMessage,
+      data: []
+    };
+    res.status(500).json(response);
   }
 });
 

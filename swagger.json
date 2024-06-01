@@ -58,6 +58,110 @@
           }
         }
       },
+      "/api/listas/getAllListsActive": {
+        "get": {
+          "summary": "Obtiene todas las listas de reproducción activas.",
+          "description": "Retorna todas las listas de reproducción almacenadas en la base de datos.",
+          "responses": {
+            "200": {
+              "description": "Lista de reproducción obtenida correctamente.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "ID único de la lista de reproducción."
+                        },
+                        "id_usuario": {
+                          "type": "string",
+                          "description": "ID del usuario propietario de la lista de reproducción."
+                        },
+                        "nombre": {
+                          "type": "string",
+                          "description": "Nombre de la lista de reproducción."
+                        },
+                        "canciones": {
+                          "type": "array",
+                          "description": "Lista de IDs de canciones incluidas en la lista de reproducción.",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": [
+                            "ni5o2435boidfadsf",
+                            "432oi5jn2l3k4n5on"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No se encontraron listas de reproducción en la base de datos."
+            },
+            "500": {
+              "description": "Error al obtener las listas de reproducción desde la base de datos."
+            }
+          }
+        }
+      },
+      "/api/listas/getAllListsInactive": {
+        "get": {
+          "summary": "Obtiene todas las listas de reproducción inactivas.",
+          "description": "Retorna todas las listas de reproducción almacenadas en la base de datos.",
+          "responses": {
+            "200": {
+              "description": "Lista de reproducción obtenida correctamente.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "ID único de la lista de reproducción."
+                        },
+                        "id_usuario": {
+                          "type": "string",
+                          "description": "ID del usuario propietario de la lista de reproducción."
+                        },
+                        "nombre": {
+                          "type": "string",
+                          "description": "Nombre de la lista de reproducción."
+                        },
+                        "canciones": {
+                          "type": "array",
+                          "description": "Lista de IDs de canciones incluidas en la lista de reproducción.",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": [
+                            "ni5o2435boidfadsf",
+                            "432oi5jn2l3k4n5on"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No se encontraron listas de reproducción en la base de datos."
+            },
+            "500": {
+              "description": "Error al obtener las listas de reproducción desde la base de datos."
+            }
+          }
+        }
+      },
       "/api/listas/getList/{idList}": {
         "get": {
           "summary": "Obtener una lista de reproducción por su ID",
@@ -406,7 +510,179 @@
             }
           }
         }
-      }
+      },
+      "/api/listas/deletePlaylist/{idList}": {
+        "delete": {
+          "summary": "Eliminar una lista de reproducción por su ID",
+          "description": "Este endpoint permite eliminar una lista de reproducción específica mediante su ID.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idList",
+              "required": true,
+              "description": "ID de la lista de reproducción a eliminar.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de reproducción eliminada correctamente."
+            },
+            "404": {
+              "description": "La lista de reproducción no existe."
+            },
+            "500": {
+              "description": "Error al eliminar la lista de reproducción desde la base de datos."
+            }
+          }
+        }
+      },
+      "/api/listas/deactivatePlaylist/{idList}": {
+        "patch": {
+          "summary": "Desactiva una lista de reproducción.",
+          "description": "Desactiva una lista de reproducción existente en la base de datos cambiando su estado a 'inactiva'.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idList",
+              "required": true,
+              "description": "ID de la lista de reproducción que se desactivará.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de reproducción desactivada correctamente."
+            },
+            "404": {
+              "description": "La lista de reproducción no existe."
+            },
+            "500": {
+              "description": "Error al desactivar la lista de reproducción en la base de datos."
+            }
+          }
+        }
+      },
+      "/api/listas/activatePlaylist/{idList}": {
+        "patch": {
+          "summary": "Activa una lista de reproducción.",
+          "description": "Activa una lista de reproducción existente en la base de datos cambiando su estado a 'activa'.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idList",
+              "required": true,
+              "description": "ID de la lista de reproducción que se activará.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de reproducción activada correctamente."
+            },
+            "404": {
+              "description": "La lista de reproducción no existe."
+            },
+            "500": {
+              "description": "Error al activar la lista de reproducción en la base de datos."
+            }
+          }
+        }
+      },
+      "/api/listas/updateTitle/{idList}": {
+        "patch": {
+          "summary": "Actualizar el título de una lista de reproducción.",
+          "description": "Actualiza el título de una lista de reproducción existente en la base de datos.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idList",
+              "required": true,
+              "description": "ID de la lista de reproducción cuyo título se actualizará.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "string",
+                      "description": "Nuevo título de la lista de reproducción."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Título de la lista de reproducción actualizado correctamente."
+            },
+            "404": {
+              "description": "La lista de reproducción no existe."
+            },
+            "500": {
+              "description": "Error al actualizar el título de la lista de reproducción en la base de datos."
+            }
+          }
+        }
+      },
+      "/api/listas/updatePublic/{idList}": {
+        "patch": {
+          "summary": "Actualizar la visibilidad de una lista de reproducción.",
+          "description": "Actualiza la visibilidad de una lista de reproducción existente en la base de datos.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "idList",
+              "required": true,
+              "description": "ID de la lista de reproducción cuya visibilidad se actualizará.",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "publico": {
+                      "type": "boolean",
+                      "description": "Nuevo estado de visibilidad de la lista de reproducción."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Visibilidad de la lista de reproducción actualizada correctamente."
+            },
+            "404": {
+              "description": "La lista de reproducción no existe."
+            },
+            "500": {
+              "description": "Error al actualizar la visibilidad de la lista de reproducción en la base de datos."
+            }
+          }
+        }
+      }           
     }
   }
   

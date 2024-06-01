@@ -1,14 +1,17 @@
-import { initializeApp, cert, App } from 'firebase-admin/app';
+import { initializeApp, cert, App, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore, Firestore } from 'firebase-admin/firestore';
+import * as dotenv from 'dotenv';
 
-const serviceAccount = require('./andino-db-cert.json');
+dotenv.config();
 
-const test =()=>{
-    console.log(serviceAccount)
-}
+const serviceAccount: ServiceAccount = {
+    projectId: process.env.PROJECT_ID,
+    privateKey: process.env.PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    clientEmail: process.env.CLIENT_EMAIL,
+};
 
 const firebaseApp: App = initializeApp({
-    credential: cert(serviceAccount)
+    credential: cert(serviceAccount),
 });
 
 const db: Firestore = getFirestore(firebaseApp);
