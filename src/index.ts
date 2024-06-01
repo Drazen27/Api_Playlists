@@ -1,7 +1,7 @@
 // src/index.js
 import express, { Express, Request, Response,Router } from "express";
 import dotenv from "dotenv";
-import usersRoute from "./routes/listas"
+import listaRoute from "./routes/listasRoute"
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from "../swagger.json";
 var cors = require('cors')
@@ -29,13 +29,14 @@ const allowCors = (req: Request, res: Response, next: () => void) => {
 
 
 const app = express();
-const port = process.env.PORT;
+// const port = process.env.PORT;
+const port = 3000;
 
 app.use(allowCors);
 
 app.use(express.json());
 
-app.use("/api",cors(corsOptions),usersRoute);
+app.use("/api",cors(corsOptions),listaRoute);
 app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
 
 app.get("/", (req: Request, res: Response) => {
