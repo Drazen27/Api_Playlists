@@ -37,7 +37,7 @@ app.use(allowCors);
 app.use(express.json());
 
 app.use("/api",cors(corsOptions),listaRoute);
-app.use("/swagger-ui/index.html",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
+app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument))
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
