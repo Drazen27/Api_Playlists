@@ -29,24 +29,11 @@ const allowCors = (req: Request, res: Response, next: () => void) => {
   }
   next();
 };
-// const options = {
-//   definition: {
-//     openapi: "3.0.0",
-//     info: {
-//       title: "Swagger Express API",
-//       version: "1.0.0",
-//       description: "Swagger para API Rest Proyecto distribuido"
-//     },
-//     servers: [
-//       {
-//         url: "https://apil-istas.vercel.app/",
-//         description: "Documentación API",
-//       },
-//     ],
-//   },
-//   // This is to call all the file
-//   apis: ["src/**/*.json"],
-// };
+
+
+const options: swaggerUi.SwaggerUiOptions = {
+  customCss: CSS_URL,
+};
 
 const app = express();
 const port = process.env.PORT;
@@ -56,8 +43,9 @@ app.use(allowCors);
 
 app.use(express.json());
 
+
 app.use("/api",cors(corsOptions),listaRoute);
-app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument,{ customCssUrl: CSS_URL }))
+app.use("/api-docs",express.static('src/swagger/swagger.json'),swaggerUi.serve,swaggerUi.setup(swaggerDocument))
 app.get("/swagger.json", (req: Request, res: Response) => {
   res.json(swaggerDocument);
 });
