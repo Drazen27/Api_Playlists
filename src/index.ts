@@ -4,11 +4,14 @@ import dotenv from "dotenv";
 import listaRoute from "./routes/listasRoute"
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from "./swagger/swagger.json";
+import path from "path";
+
 const CSS_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
 
 var cors = require('cors')
-
+const ROOT_FOLDER = path.join(__dirname, '..');
+const SRC_FOLDER = path.join(ROOT_FOLDER, 'src');
 dotenv.config();
 // Configuración de CORS
 const corsOptions = {
@@ -41,8 +44,10 @@ app.use(express.json());
 
 
 app.use("/api",cors(corsOptions),listaRoute);
+
 const options = { customCssUrl: '/public/swagger-ui.css', customSiteTitle: "The Words That I Know API - Swagger" };
 
+app.use('/public', express.static(path.join(SRC_FOLDER, 'public')));
 app.use('/', swaggerUi.serve);
 app.get('/', swaggerUi.setup(swaggerDocument, options));
 
