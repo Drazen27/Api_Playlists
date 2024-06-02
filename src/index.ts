@@ -5,7 +5,7 @@ import listaRoute from "./routes/listasRoute"
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from "./swagger/swagger.json";
 const CSS_URL =
-  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.min.css";
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
 
 var cors = require('cors')
 
@@ -45,7 +45,7 @@ app.use(express.json());
 
 
 app.use("/api",cors(corsOptions),listaRoute);
-app.use("/api-docs",express.static('src/swagger/swagger.json'),swaggerUi.serve,swaggerUi.setup(swaggerDocument))
+app.use("/api-docs",express.static('src/swagger/swagger.json'),swaggerUi.serve,swaggerUi.setup(swaggerDocument,options))
 app.get("/swagger.json", (req: Request, res: Response) => {
   res.json(swaggerDocument);
 });
