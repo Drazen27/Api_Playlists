@@ -41,15 +41,18 @@ app.use(express.json());
 
 
 app.use("/api",cors(corsOptions),listaRoute);
-app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument));
+const options = { customCssUrl: '/public/swagger-ui.css', customSiteTitle: "The Words That I Know API - Swagger" };
+
+app.use('/', swaggerUi.serve);
+app.get('/', swaggerUi.setup(swaggerDocument, options));
 
 app.get("/swagger.json", (req: Request, res: Response) => {
   res.json(swaggerDocument);
 });
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
+// app.get("/", (req: Request, res: Response) => {
+//   res.send("Express + TypeScript Server");
+// });
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
