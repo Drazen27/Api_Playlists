@@ -5,7 +5,7 @@ import listaRoute from "./routes/listasRoute"
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from "./swagger/swagger.json";
 const CSS_URL =
-  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
 
 var cors = require('cors')
 
@@ -29,7 +29,24 @@ const allowCors = (req: Request, res: Response, next: () => void) => {
   }
   next();
 };
-
+// const options = {
+//   definition: {
+//     openapi: "3.0.0",
+//     info: {
+//       title: "Swagger Express API",
+//       version: "1.0.0",
+//       description: "Swagger para API Rest Proyecto distribuido"
+//     },
+//     servers: [
+//       {
+//         url: "https://apil-istas.vercel.app/",
+//         description: "Documentación API",
+//       },
+//     ],
+//   },
+//   // This is to call all the file
+//   apis: ["src/**/*.json"],
+// };
 
 const app = express();
 const port = process.env.PORT;
@@ -41,6 +58,9 @@ app.use(express.json());
 
 app.use("/api",cors(corsOptions),listaRoute);
 app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument,{ customCssUrl: CSS_URL }))
+app.get("/swagger.json", (req: Request, res: Response) => {
+  res.json(swaggerDocument);
+});
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
