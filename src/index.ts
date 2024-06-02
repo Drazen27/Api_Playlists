@@ -16,31 +16,32 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-// Middleware personalizado para permitir CORS con las opciones definidas
-const allowCors = (req: Request, res: Response, next: () => void) => {
-  // Permite solicitudes desde cualquier origen
-  res.header('Access-Control-Allow-Origin', '*');
-  // Define otros encabezados permitidos
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  // Define métodos permitidos
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-    return res.status(200).json({});
-  }
-  next();
-};
+// // Middleware personalizado para permitir CORS con las opciones definidas
+// const allowCors = (req: Request, res: Response, next: () => void) => {
+//   // Permite solicitudes desde cualquier origen
+//   res.header('Access-Control-Allow-Origin', '*');
+//   // Define otros encabezados permitidos
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   // Define métodos permitidos
+//   if (req.method === 'OPTIONS') {
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
+//     return res.status(200).json({});
+//   }
+//   next();
+// };
 
 
 const app = express();
 const port = process.env.PORT;
 //const port = 3000;
 
-app.use(allowCors);
+// app.use(allowCors);
 
 app.use(express.json());
 
 
-app.use("/api",cors(corsOptions),listaRoute);
+app.use("/api",listaRoute);
+
 app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 
 app.get("/swagger.json", (req: Request, res: Response) => {
