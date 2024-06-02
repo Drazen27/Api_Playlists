@@ -4,8 +4,6 @@ import dotenv from "dotenv";
 import listaRoute from "./routes/listasRoute"
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from "./swagger/swagger.json";
-import swaggerJsDoc from "swagger-jsdoc";
-import path from "path";
 const CSS_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
 
@@ -31,32 +29,7 @@ const allowCors = (req: Request, res: Response, next: () => void) => {
   }
   next();
 };
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Library API",
-      version: "1.0.0",
-      description: "A simple Express Library API",
-      termsOfService: "http://example.com/terms/",
-      contact: {
-        name: "API Support",
-        url: "http://www.exmaple.com/support",
-        email: "support@example.com",
-      },
-    },
-    servers: [
-      {
-        url: "https://nodejs-swagger-api.vercel.app/",
-        description: "My API Documentation",
-      },
-    ],
-  },
-  path:["src/swagger/swagger.json"],
-  // This is to call all the file
-  apis: ["src/**/*.ts"],
-};
-const specs = swaggerJsDoc(options);
+
 
 const app = express();
 const port = process.env.PORT;
@@ -68,7 +41,7 @@ app.use(express.json());
 
 
 app.use("/api",cors(corsOptions),listaRoute);
-app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(specs,{ customCssUrl: CSS_URL }));
+app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 
 app.get("/swagger.json", (req: Request, res: Response) => {
   res.json(swaggerDocument);
