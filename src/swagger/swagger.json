@@ -9,6 +9,10 @@
       {
         "url": "https://apil-istas.vercel.app/",
         "description": "Documentación API"
+      },
+      {
+        "url": "http://localhost:3000/",
+        "description": "Pruebas Internas"
       }
     ], 
     "paths": {
