@@ -45,7 +45,7 @@ app.use(express.json());
 
 
 app.use("/api",cors(corsOptions),listaRoute);
-app.use("/api-docs",express.static('src/swagger/swagger.json'),swaggerUi.serve,swaggerUi.setup(swaggerDocument,options))
+app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument,options))
 app.get("/swagger.json", (req: Request, res: Response) => {
   res.json(swaggerDocument);
 });
