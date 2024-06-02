@@ -57,6 +57,7 @@ const options = {
   apis: ["src/**/*.ts"],
 };
 const specs = swaggerJsDoc(options);
+
 const app = express();
 const port = process.env.PORT;
 //const port = 3000;
@@ -67,7 +68,7 @@ app.use(express.json());
 
 
 app.use("/api",cors(corsOptions),listaRoute);
-app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(specs));
+app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(specs,{ customCssUrl: CSS_URL }));
 
 app.get("/swagger.json", (req: Request, res: Response) => {
   res.json(swaggerDocument);
