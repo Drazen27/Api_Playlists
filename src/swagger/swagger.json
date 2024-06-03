@@ -5,7 +5,6 @@
       "version": "1.0.0",
       "description": "Swagger para API Rest Proyecto distribuido"
     },
-     
     "paths": {
       "/api/listas/getAllLists": {
         "get": {
