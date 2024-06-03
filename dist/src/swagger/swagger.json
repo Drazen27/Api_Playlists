@@ -1,0 +1,1175 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swagger Express API",
+        "version": "1.0.0",
+        "description": "Swagger para API Rest Proyecto distribuido"
+    },
+    "paths": {
+        "/api/listas/getAllLists": {
+            "get": {
+                "summary": "Obtiene todas las listas de reproducción.",
+                "description": "Retorna todas las listas de reproducción almacenadas en la base de datos.",
+                "responses": {
+                    "200": {
+                        "description": "Lista de reproducción obtenida correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "ID único de la lista de reproducción."
+                                            },
+                                            "id_usuario": {
+                                                "type": "string",
+                                                "description": "ID del usuario propietario de la lista de reproducción."
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "description": "Nombre de la lista de reproducción."
+                                            },
+                                            "canciones": {
+                                                "type": "array",
+                                                "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "description": "ID único de la canción."
+                                                        },
+                                                        "nombre": {
+                                                            "type": "string",
+                                                            "description": "Nombre de la canción."
+                                                        },
+                                                        "imagen": {
+                                                            "type": "string",
+                                                            "description": "URL de la imagen de la canción."
+                                                        }
+                                                    }
+                                                },
+                                                "example": [
+                                                    {
+                                                        "id": "ni5o2435boidfadsf",
+                                                        "nombre": "Canción 1",
+                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                    },
+                                                    {
+                                                        "id": "432oi5jn2l3k4n5on",
+                                                        "nombre": "Canción 2",
+                                                        "imagen": "https://example.com/imagen2.jpg"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron listas de reproducción en la base de datos."
+                    },
+                    "500": {
+                        "description": "Error al obtener las listas de reproducción desde la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/getAllListsActive": {
+            "get": {
+                "summary": "Obtiene todas las listas de reproducción activas.",
+                "description": "Retorna todas las listas de reproducción activas almacenadas en la base de datos.",
+                "responses": {
+                    "200": {
+                        "description": "Lista de reproducción obtenida correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "ID único de la lista de reproducción."
+                                            },
+                                            "id_usuario": {
+                                                "type": "string",
+                                                "description": "ID del usuario propietario de la lista de reproducción."
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "description": "Nombre de la lista de reproducción."
+                                            },
+                                            "canciones": {
+                                                "type": "array",
+                                                "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "description": "ID único de la canción."
+                                                        },
+                                                        "nombre": {
+                                                            "type": "string",
+                                                            "description": "Nombre de la canción."
+                                                        },
+                                                        "imagen": {
+                                                            "type": "string",
+                                                            "description": "URL de la imagen de la canción."
+                                                        }
+                                                    }
+                                                },
+                                                "example": [
+                                                    {
+                                                        "id": "ni5o2435boidfadsf",
+                                                        "nombre": "Canción 1",
+                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                    },
+                                                    {
+                                                        "id": "432oi5jn2l3k4n5on",
+                                                        "nombre": "Canción 2",
+                                                        "imagen": "https://example.com/imagen2.jpg"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron listas de reproducción activas en la base de datos."
+                    },
+                    "500": {
+                        "description": "Error al obtener las listas de reproducción desde la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/getAllListsInactive": {
+            "get": {
+                "summary": "Obtiene todas las listas de reproducción inactivas.",
+                "description": "Retorna todas las listas de reproducción inactivas almacenadas en la base de datos.",
+                "responses": {
+                    "200": {
+                        "description": "Lista de reproducción obtenida correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "ID único de la lista de reproducción."
+                                            },
+                                            "id_usuario": {
+                                                "type": "string",
+                                                "description": "ID del usuario propietario de la lista de reproducción."
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "description": "Nombre de la lista de reproducción."
+                                            },
+                                            "canciones": {
+                                                "type": "array",
+                                                "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "description": "ID único de la canción."
+                                                        },
+                                                        "nombre": {
+                                                            "type": "string",
+                                                            "description": "Nombre de la canción."
+                                                        },
+                                                        "imagen": {
+                                                            "type": "string",
+                                                            "description": "URL de la imagen de la canción."
+                                                        }
+                                                    }
+                                                },
+                                                "example": [
+                                                    {
+                                                        "id": "ni5o2435boidfadsf",
+                                                        "nombre": "Canción 1",
+                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                    },
+                                                    {
+                                                        "id": "432oi5jn2l3k4n5on",
+                                                        "nombre": "Canción 2",
+                                                        "imagen": "https://example.com/imagen2.jpg"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron listas de reproducción inactivas en la base de datos."
+                    },
+                    "500": {
+                        "description": "Error al obtener las listas de reproducción desde la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/getList/{idList}": {
+            "get": {
+                "summary": "Obtener una lista de reproducción por su ID",
+                "description": "Este endpoint permite obtener una lista de reproducción específica mediante su ID.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idList",
+                        "required": true,
+                        "description": "ID de la lista de reproducción a obtener.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID único de la lista de reproducción."
+                                        },
+                                        "id_usuario": {
+                                            "type": "string",
+                                            "description": "ID del usuario propietario de la lista de reproducción."
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "description": "Nombre de la lista de reproducción."
+                                        },
+                                        "canciones": {
+                                            "type": "array",
+                                            "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "ID único de la canción."
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre de la canción."
+                                                    },
+                                                    "imagen": {
+                                                        "type": "string",
+                                                        "description": "URL de la imagen de la canción."
+                                                    }
+                                                }
+                                            },
+                                            "example": [
+                                                {
+                                                    "id": "ni5o2435boidfadsf",
+                                                    "nombre": "Canción 1",
+                                                    "imagen": "https://example.com/imagen1.jpg"
+                                                },
+                                                {
+                                                    "id": "432oi5jn2l3k4n5on",
+                                                    "nombre": "Canción 2",
+                                                    "imagen": "https://example.com/imagen2.jpg"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "La lista de reproducción no existe"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/listas/getListsByName/{nombreLista}": {
+            "get": {
+                "summary": "Obtener listas de reproducción por nombre",
+                "description": "Retorna todas las listas de reproducción que tienen el mismo nombre especificado.",
+                "parameters": [
+                    {
+                        "name": "nombreLista",
+                        "in": "path",
+                        "description": "Nombre de la lista de reproducción a buscar.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de reproducción obtenida correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "ID único de la lista de reproducción."
+                                            },
+                                            "id_usuario": {
+                                                "type": "string",
+                                                "description": "ID del usuario propietario de la lista de reproducción."
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "description": "Nombre de la lista de reproducción."
+                                            },
+                                            "canciones": {
+                                                "type": "array",
+                                                "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "description": "ID único de la canción."
+                                                        },
+                                                        "nombre": {
+                                                            "type": "string",
+                                                            "description": "Nombre de la canción."
+                                                        },
+                                                        "imagen": {
+                                                            "type": "string",
+                                                            "description": "URL de la imagen de la canción."
+                                                        }
+                                                    }
+                                                },
+                                                "example": [
+                                                    {
+                                                        "id": "ni5o2435boidfadsf",
+                                                        "nombre": "Canción 1",
+                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                    },
+                                                    {
+                                                        "id": "432oi5jn2l3k4n5on",
+                                                        "nombre": "Canción 2",
+                                                        "imagen": "https://example.com/imagen2.jpg"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron listas de reproducción con ese nombre."
+                    },
+                    "500": {
+                        "description": "Error al obtener las listas de reproducción desde la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/addListWithSong": {
+            "post": {
+                "summary": "Agrega una nueva lista de reproducción con canción.",
+                "description": "Agrega una nueva lista de reproducción con canción a la base de datos.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "description": "Nombre de la lista de reproducción."
+                                    },
+                                    "id_usuario": {
+                                        "type": "string",
+                                        "description": "ID del usuario propietario de la lista de reproducción."
+                                    },
+                                    "publico": {
+                                        "type": "boolean",
+                                        "description": "Bool para saber si es una lista pública o no."
+                                    },
+                                    "canciones": {
+                                        "type": "array",
+                                        "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "description": "ID único de la canción."
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "description": "Nombre de la canción."
+                                                },
+                                                "imagen": {
+                                                    "type": "string",
+                                                    "description": "URL de la imagen de la canción."
+                                                }
+                                            }
+                                        },
+                                        "example": [
+                                            {
+                                                "id": "ni5o2435boidfadsf",
+                                                "nombre": "Canción 1",
+                                                "imagen": "https://example.com/imagen1.jpg"
+                                            },
+                                            {
+                                                "id": "432oi5jn2l3k4n5on",
+                                                "nombre": "Canción 2",
+                                                "imagen": "https://example.com/imagen2.jpg"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lista de reproducción agregada correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "ID único de la lista de reproducción."
+                                            },
+                                            "id_usuario": {
+                                                "type": "string",
+                                                "description": "ID del usuario propietario de la lista de reproducción."
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "description": "Nombre de la lista de reproducción."
+                                            },
+                                            "canciones": {
+                                                "type": "array",
+                                                "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "description": "ID único de la canción."
+                                                        },
+                                                        "nombre": {
+                                                            "type": "string",
+                                                            "description": "Nombre de la canción."
+                                                        },
+                                                        "imagen": {
+                                                            "type": "string",
+                                                            "description": "URL de la imagen de la canción."
+                                                        }
+                                                    }
+                                                },
+                                                "example": [
+                                                    {
+                                                        "id": "ni5o2435boidfadsf",
+                                                        "nombre": "Canción 1",
+                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Los datos proporcionados son inválidos."
+                    },
+                    "500": {
+                        "description": "Error al agregar la lista de reproducción en la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/addList": {
+            "post": {
+                "summary": "Agrega una nueva lista de reproducción.",
+                "description": "Agrega una nueva lista de reproducción a la base de datos.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "description": "Nombre de la lista de reproducción."
+                                    },
+                                    "id_usuario": {
+                                        "type": "string",
+                                        "description": "ID del usuario propietario de la lista de reproducción."
+                                    },
+                                    "publico": {
+                                        "type": "boolean",
+                                        "description": "Bool para saber si es una lista pública o no."
+                                    }
+                                },
+                                "required": ["nombre", "id_usuario", "publico"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lista de reproducción agregada correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "ID único de la lista de reproducción."
+                                            },
+                                            "id_usuario": {
+                                                "type": "string",
+                                                "description": "ID del usuario propietario de la lista de reproducción."
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "description": "Nombre de la lista de reproducción."
+                                            },
+                                            "canciones": {
+                                                "type": "array",
+                                                "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "description": "ID único de la canción."
+                                                        },
+                                                        "nombre": {
+                                                            "type": "string",
+                                                            "description": "Nombre de la canción."
+                                                        },
+                                                        "imagen": {
+                                                            "type": "string",
+                                                            "description": "URL de la imagen de la canción."
+                                                        }
+                                                    }
+                                                },
+                                                "example": [
+                                                    {
+                                                        "id": "ni5o2435boidfadsf",
+                                                        "nombre": "Canción 1",
+                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Los datos proporcionados son inválidos.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Descripción del error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error al agregar la lista de reproducción en la base de datos.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "description": "Descripción del error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/listas/addSongs/{idList}": {
+            "post": {
+                "summary": "Agrega canciones a una lista de reproducción existente.",
+                "description": "Agrega nuevas canciones a una lista de reproducción existente en la base de datos.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idList",
+                        "required": true,
+                        "description": "ID de la lista de reproducción a la que se agregarán las canciones.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "canciones": {
+                                        "type": "array",
+                                        "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "description": "ID único de la canción."
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "description": "Nombre de la canción."
+                                                },
+                                                "imagen": {
+                                                    "type": "string",
+                                                    "description": "URL de la imagen de la canción."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Canciones agregadas correctamente a la lista de reproducción.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID único de la lista de reproducción."
+                                        },
+                                        "id_usuario": {
+                                            "type": "string",
+                                            "description": "ID del usuario propietario de la lista de reproducción."
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "description": "Nombre de la lista de reproducción."
+                                        },
+                                        "canciones": {
+                                            "type": "array",
+                                            "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "ID único de la canción."
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre de la canción."
+                                                    },
+                                                    "imagen": {
+                                                        "type": "string",
+                                                        "description": "URL de la imagen de la canción."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "estado": {
+                                            "type": "boolean",
+                                            "description": "Estado de la lista de reproducción."
+                                        },
+                                        "publico": {
+                                            "type": "boolean",
+                                            "description": "Indica si la lista de reproducción es pública."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Las canciones proporcionadas son inválidas."
+                    },
+                    "404": {
+                        "description": "La lista de reproducción no existe."
+                    },
+                    "500": {
+                        "description": "Error al agregar canciones a la lista de reproducción en la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/deleteSong/{idList}": {
+            "delete": {
+                "summary": "Elimina una canción de una lista de reproducción.",
+                "description": "Elimina una canción específica de una lista de reproducción existente en la base de datos.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idList",
+                        "required": true,
+                        "description": "ID de la lista de reproducción de la que se eliminará la canción.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "idCancion": {
+                                        "type": "string",
+                                        "description": "Id de la cancion."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Canción eliminada correctamente de la lista de reproducción."
+                    },
+                    "404": {
+                        "description": "La lista de reproducción o la canción no existen."
+                    },
+                    "500": {
+                        "description": "Error al eliminar la canción de la lista de reproducción en la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/deletePlaylist/{idList}": {
+            "delete": {
+                "summary": "Eliminar una lista de reproducción por su ID",
+                "description": "Este endpoint permite eliminar una lista de reproducción específica mediante su ID.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idList",
+                        "required": true,
+                        "description": "ID de la lista de reproducción a eliminar.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de reproducción eliminada correctamente."
+                    },
+                    "404": {
+                        "description": "La lista de reproducción no existe."
+                    },
+                    "500": {
+                        "description": "Error al eliminar la lista de reproducción desde la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/deactivatePlaylist/{idList}": {
+            "patch": {
+                "summary": "Desactiva una lista de reproducción.",
+                "description": "Desactiva una lista de reproducción existente en la base de datos cambiando su estado a 'inactiva'.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idList",
+                        "required": true,
+                        "description": "ID de la lista de reproducción que se desactivará.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de reproducción desactivada correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID único de la lista de reproducción."
+                                        },
+                                        "id_usuario": {
+                                            "type": "string",
+                                            "description": "ID del usuario propietario de la lista de reproducción."
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "description": "Nombre de la lista de reproducción."
+                                        },
+                                        "canciones": {
+                                            "type": "array",
+                                            "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "ID único de la canción."
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre de la canción."
+                                                    },
+                                                    "imagen": {
+                                                        "type": "string",
+                                                        "description": "URL de la imagen de la canción."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "estado": {
+                                            "type": "boolean",
+                                            "description": "Estado de la lista de reproducción, donde 'false' indica que está inactiva."
+                                        },
+                                        "publico": {
+                                            "type": "boolean",
+                                            "description": "Indica si la lista de reproducción es pública."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "La lista de reproducción no existe."
+                    },
+                    "500": {
+                        "description": "Error al desactivar la lista de reproducción en la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/activatePlaylist/{idList}": {
+            "patch": {
+                "summary": "Activa una lista de reproducción.",
+                "description": "Activa una lista de reproducción existente en la base de datos cambiando su estado a 'activa'.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idList",
+                        "required": true,
+                        "description": "ID de la lista de reproducción que se activará.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de reproducción activada correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID único de la lista de reproducción."
+                                        },
+                                        "id_usuario": {
+                                            "type": "string",
+                                            "description": "ID del usuario propietario de la lista de reproducción."
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "description": "Nombre de la lista de reproducción."
+                                        },
+                                        "canciones": {
+                                            "type": "array",
+                                            "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "ID único de la canción."
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre de la canción."
+                                                    },
+                                                    "imagen": {
+                                                        "type": "string",
+                                                        "description": "URL de la imagen de la canción."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "estado": {
+                                            "type": "boolean",
+                                            "description": "Estado de la lista de reproducción, donde 'true' indica que está activa."
+                                        },
+                                        "publico": {
+                                            "type": "boolean",
+                                            "description": "Indica si la lista de reproducción es pública."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "La lista de reproducción no existe."
+                    },
+                    "500": {
+                        "description": "Error al activar la lista de reproducción en la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/updateTitle/{idList}": {
+            "patch": {
+                "summary": "Actualizar el título de una lista de reproducción.",
+                "description": "Actualiza el título de una lista de reproducción existente en la base de datos.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idList",
+                        "required": true,
+                        "description": "ID de la lista de reproducción cuyo título se actualizará.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "description": "Nuevo título de la lista de reproducción."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Título de la lista de reproducción actualizado correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID único de la lista de reproducción."
+                                        },
+                                        "id_usuario": {
+                                            "type": "string",
+                                            "description": "ID del usuario propietario de la lista de reproducción."
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "description": "Nombre de la lista de reproducción."
+                                        },
+                                        "canciones": {
+                                            "type": "array",
+                                            "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "ID único de la canción."
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre de la canción."
+                                                    },
+                                                    "imagen": {
+                                                        "type": "string",
+                                                        "description": "URL de la imagen de la canción."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "estado": {
+                                            "type": "boolean",
+                                            "description": "Estado de la lista de reproducción."
+                                        },
+                                        "publico": {
+                                            "type": "boolean",
+                                            "description": "Indica si la lista de reproducción es pública."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "La lista de reproducción no existe."
+                    },
+                    "500": {
+                        "description": "Error al actualizar el título de la lista de reproducción en la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/updatePublic/{idList}": {
+            "patch": {
+                "summary": "Actualizar la visibilidad de una lista de reproducción.",
+                "description": "Actualiza la visibilidad de una lista de reproducción existente en la base de datos.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "idList",
+                        "required": true,
+                        "description": "ID de la lista de reproducción cuya visibilidad se actualizará.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "publico": {
+                                        "type": "boolean",
+                                        "description": "Nuevo estado de visibilidad de la lista de reproducción."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Visibilidad de la lista de reproducción actualizada correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID único de la lista de reproducción."
+                                        },
+                                        "id_usuario": {
+                                            "type": "string",
+                                            "description": "ID del usuario propietario de la lista de reproducción."
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "description": "Nombre de la lista de reproducción."
+                                        },
+                                        "canciones": {
+                                            "type": "array",
+                                            "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "ID único de la canción."
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre de la canción."
+                                                    },
+                                                    "imagen": {
+                                                        "type": "string",
+                                                        "description": "URL de la imagen de la canción."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "estado": {
+                                            "type": "boolean",
+                                            "description": "Estado de la lista de reproducción."
+                                        },
+                                        "publico": {
+                                            "type": "boolean",
+                                            "description": "Indica si la lista de reproducción es pública."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "La lista de reproducción no existe."
+                    },
+                    "500": {
+                        "description": "Error al actualizar la visibilidad de la lista de reproducción en la base de datos."
+                    }
+                }
+            }
+        }
+    }
+}
