@@ -523,7 +523,7 @@ router.delete('/listas/deleteSong/:idList', async (req: Request, res: Response) 
 
     // Verifica si la canción está presente en la lista de reproducción
     const listaData = listaSnapshot.data();
-    if (!listaData?.canciones.includes(idCancion)) {
+    if (!listaData?.canciones.some((cancion: any) => cancion.id === idCancion)) {
       const response: PlaylistResponse = {
         success: false,
         message: 'La canción no está presente en la lista de reproducción',
@@ -535,7 +535,7 @@ router.delete('/listas/deleteSong/:idList', async (req: Request, res: Response) 
     }
 
     // Elimina la canción de la lista de reproducción
-    const nuevasCanciones = listaData.canciones.filter((cancionId: string) => cancionId !== idCancion);
+    const nuevasCanciones = listaData.canciones.filter((cancion: any) => cancion.id !== idCancion);
     await db.collection('playlist').doc(idLista).update({
       canciones: nuevasCanciones
     });
