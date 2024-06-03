@@ -5,16 +5,7 @@
       "version": "1.0.0",
       "description": "Swagger para API Rest Proyecto distribuido"
     },
-    "servers": [
-      {
-        "url": "https://apil-istas.vercel.app/",
-        "description": "Documentación API"
-      },
-      {
-        "url": "http://localhost:3000/",
-        "description": "Pruebas Internas"
-      }
-    ], 
+     
     "paths": {
       "/api/listas/getAllLists": {
         "get": {
