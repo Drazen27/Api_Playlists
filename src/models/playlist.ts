@@ -4,6 +4,9 @@ export interface Cancion {
     id: string;
     nombre: string;
     imagen: string;
+    url: string;
+    album: string;
+    artista: string;
 }
 
 export interface Playlist extends FirebaseDocument {

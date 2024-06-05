@@ -241,8 +241,8 @@ router.get('/listas/getListsByName/:nombreLista', async (req: Request, res: Resp
         id: doc.id,
         nombre: data.nombre,
         id_usuario: data.id_usuario,
-        publico: data.publico,
         canciones: data.canciones,
+        publico: data.publico,
         estado: data.estado
       };
       listasEncontradas.push(playlist);
@@ -283,25 +283,66 @@ router.get('/listas/getListsByName/:nombreLista', async (req: Request, res: Resp
     res.status(500).json(response);
   }
 });
-
-router.get('/listas/getList/:nombreList', async (req: Request, res: Response) => {
+router.get('/listas/getListsUserId/:idUser', async (req: Request, res: Response) => {
   try {
-    // Realiza una consulta a Firestore para obtener todas las listas de reproducción
-    const idLista: string = req.params.nombreList;
+    const idUser: string = req.params.idUser;
 
-    // Verifica si la lista de reproducción existe
-    const listaSnapshot:any = await db.collection('playlist').doc(idLista).get();
-    if (!listaSnapshot.exists) {
-      return res.status(404).json({ error: 'La lista de reproducción no existe' });
+    // Realiza una consulta a Firestore para encontrar las listas con el mismo nombre
+    const querySnapshot = await db.collection('playlist').where('id_usuario', '==', idUser).get();
+
+    const listasEncontradas: Playlist[] = [];
+
+    // Iterar sobre los resultados de la consulta
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      const playlist: Playlist = {
+        id: doc.id,
+        nombre: data.nombre,
+        id_usuario: data.id_usuario,
+        canciones: data.canciones,
+        publico: data.publico,
+        estado: data.estado
+      };
+      listasEncontradas.push(playlist);
+    });
+
+    // Verificar si se encontraron listas
+    if (listasEncontradas.length === 0) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'No se encontraron listas de reproducción de ese usuario',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
     }
 
-    res.status(200).json(listaSnapshot.data());
-    
+    // Devolver las listas encontradas
+    const response: PlaylistResponse = {
+      success: true,
+      message: 'Listas de reproducción obtenidas correctamente',
+      errorCode: '',
+      errorMessage: '',
+      data: listasEncontradas
+    };
+    res.status(200).json(response);
+
   } catch (error) {
-    console.error('Error al obtener las listas de reproducción:', error);
-    res.status(500).json({ error: 'Error al obtener las listas de reproducción' });
+    console.error('Error al obtener las listas de reproducción por usuario:', error);
+    const errorMessage = error instanceof Error ? error.message : '';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al obtener las listas de reproducción por usuario',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage: errorMessage,
+      data: []
+    };
+    res.status(500).json(response);
   }
 });
+
+
 //AddList
 router.post('/listas/addList', async (req: Request, res: Response) => {
   try {

@@ -49,6 +49,18 @@
                                                         "imagen": {
                                                             "type": "string",
                                                             "description": "URL de la imagen de la canción."
+                                                        },
+                                                        "url": {
+                                                            "type": "string",
+                                                            "description": "URL de la canción."
+                                                        },
+                                                        "album": {
+                                                            "type": "string",
+                                                            "description": "Álbum al que pertenece la canción."
+                                                        },
+                                                        "artista": {
+                                                            "type": "string",
+                                                            "description": "Artista de la canción."
                                                         }
                                                     }
                                                 },
@@ -56,14 +68,28 @@
                                                     {
                                                         "id": "ni5o2435boidfadsf",
                                                         "nombre": "Canción 1",
-                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                        "imagen": "https://example.com/imagen1.jpg",
+                                                        "url": "https://example.com/cancion1.mp3",
+                                                        "album": "Álbum 1",
+                                                        "artista": "Artista 1"
                                                     },
                                                     {
                                                         "id": "432oi5jn2l3k4n5on",
                                                         "nombre": "Canción 2",
-                                                        "imagen": "https://example.com/imagen2.jpg"
+                                                        "imagen": "https://example.com/imagen2.jpg",
+                                                        "url": "https://example.com/cancion2.mp3",
+                                                        "album": "Álbum 2",
+                                                        "artista": "Artista 2"
                                                     }
                                                 ]
+                                            },
+                                            "estado": {
+                                                "type": "boolean",
+                                                "description": "Estado de la lista de reproducción, indicando si está activa o inactiva."
+                                            },
+                                            "publico": {
+                                                "type": "boolean",
+                                                "description": "Indica si la lista de reproducción es pública o privada."
                                             }
                                         }
                                     }
@@ -123,6 +149,18 @@
                                                         "imagen": {
                                                             "type": "string",
                                                             "description": "URL de la imagen de la canción."
+                                                        },
+                                                        "url": {
+                                                            "type": "string",
+                                                            "description": "URL de la canción."
+                                                        },
+                                                        "album": {
+                                                            "type": "string",
+                                                            "description": "Álbum al que pertenece la canción."
+                                                        },
+                                                        "artista": {
+                                                            "type": "string",
+                                                            "description": "Artista de la canción."
                                                         }
                                                     }
                                                 },
@@ -130,14 +168,28 @@
                                                     {
                                                         "id": "ni5o2435boidfadsf",
                                                         "nombre": "Canción 1",
-                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                        "imagen": "https://example.com/imagen1.jpg",
+                                                        "url": "https://example.com/cancion1.mp3",
+                                                        "album": "Álbum 1",
+                                                        "artista": "Artista 1"
                                                     },
                                                     {
                                                         "id": "432oi5jn2l3k4n5on",
                                                         "nombre": "Canción 2",
-                                                        "imagen": "https://example.com/imagen2.jpg"
+                                                        "imagen": "https://example.com/imagen2.jpg",
+                                                        "url": "https://example.com/cancion2.mp3",
+                                                        "album": "Álbum 2",
+                                                        "artista": "Artista 2"
                                                     }
                                                 ]
+                                            },
+                                            "estado": {
+                                                "type": "boolean",
+                                                "description": "Estado de la lista de reproducción, indicando si está activa o inactiva."
+                                            },
+                                            "publico": {
+                                                "type": "boolean",
+                                                "description": "Indica si la lista de reproducción es pública o privada."
                                             }
                                         }
                                     }
@@ -197,6 +249,18 @@
                                                         "imagen": {
                                                             "type": "string",
                                                             "description": "URL de la imagen de la canción."
+                                                        },
+                                                        "url": {
+                                                            "type": "string",
+                                                            "description": "URL de la canción."
+                                                        },
+                                                        "album": {
+                                                            "type": "string",
+                                                            "description": "Álbum al que pertenece la canción."
+                                                        },
+                                                        "artista": {
+                                                            "type": "string",
+                                                            "description": "Artista de la canción."
                                                         }
                                                     }
                                                 },
@@ -204,14 +268,28 @@
                                                     {
                                                         "id": "ni5o2435boidfadsf",
                                                         "nombre": "Canción 1",
-                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                        "imagen": "https://example.com/imagen1.jpg",
+                                                        "url": "https://example.com/cancion1.mp3",
+                                                        "album": "Álbum 1",
+                                                        "artista": "Artista 1"
                                                     },
                                                     {
                                                         "id": "432oi5jn2l3k4n5on",
                                                         "nombre": "Canción 2",
-                                                        "imagen": "https://example.com/imagen2.jpg"
+                                                        "imagen": "https://example.com/imagen2.jpg",
+                                                        "url": "https://example.com/cancion2.mp3",
+                                                        "album": "Álbum 2",
+                                                        "artista": "Artista 2"
                                                     }
                                                 ]
+                                            },
+                                            "estado": {
+                                                "type": "boolean",
+                                                "description": "Estado de la lista de reproducción, indicando si está activa o inactiva."
+                                            },
+                                            "publico": {
+                                                "type": "boolean",
+                                                "description": "Indica si la lista de reproducción es pública o privada."
                                             }
                                         }
                                     }
@@ -230,7 +308,7 @@
         },
         "/api/listas/getList/{idList}": {
             "get": {
-                "summary": "Obtener una lista de reproducción por su ID",
+                "summary": "Obtener una lista de reproducción por su ID.",
                 "description": "Este endpoint permite obtener una lista de reproducción específica mediante su ID.",
                 "parameters": [
                     {
@@ -280,6 +358,18 @@
                                                     "imagen": {
                                                         "type": "string",
                                                         "description": "URL de la imagen de la canción."
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "description": "URL de la canción."
+                                                    },
+                                                    "album": {
+                                                        "type": "string",
+                                                        "description": "Álbum al que pertenece la canción."
+                                                    },
+                                                    "artista": {
+                                                        "type": "string",
+                                                        "description": "Artista de la canción."
                                                     }
                                                 }
                                             },
@@ -287,14 +377,28 @@
                                                 {
                                                     "id": "ni5o2435boidfadsf",
                                                     "nombre": "Canción 1",
-                                                    "imagen": "https://example.com/imagen1.jpg"
+                                                    "imagen": "https://example.com/imagen1.jpg",
+                                                    "url": "https://example.com/cancion1.mp3",
+                                                    "album": "Álbum 1",
+                                                    "artista": "Artista 1"
                                                 },
                                                 {
                                                     "id": "432oi5jn2l3k4n5on",
                                                     "nombre": "Canción 2",
-                                                    "imagen": "https://example.com/imagen2.jpg"
+                                                    "imagen": "https://example.com/imagen2.jpg",
+                                                    "url": "https://example.com/cancion2.mp3",
+                                                    "album": "Álbum 2",
+                                                    "artista": "Artista 2"
                                                 }
                                             ]
+                                        },
+                                        "estado": {
+                                            "type": "boolean",
+                                            "description": "Estado de la lista de reproducción, indicando si está activa o inactiva."
+                                        },
+                                        "publico": {
+                                            "type": "boolean",
+                                            "description": "Indica si la lista de reproducción es pública o privada."
                                         }
                                     }
                                 }
@@ -302,10 +406,10 @@
                         }
                     },
                     "404": {
-                        "description": "La lista de reproducción no existe"
+                        "description": "La lista de reproducción no existe."
                     },
                     "500": {
-                        "description": "Error interno del servidor"
+                        "description": "Error interno del servidor."
                     }
                 }
             }
@@ -364,6 +468,18 @@
                                                         "imagen": {
                                                             "type": "string",
                                                             "description": "URL de la imagen de la canción."
+                                                        },
+                                                        "url": {
+                                                            "type": "string",
+                                                            "description": "URL de la canción."
+                                                        },
+                                                        "album": {
+                                                            "type": "string",
+                                                            "description": "Álbum al que pertenece la canción."
+                                                        },
+                                                        "artista": {
+                                                            "type": "string",
+                                                            "description": "Artista de la canción."
                                                         }
                                                     }
                                                 },
@@ -371,14 +487,28 @@
                                                     {
                                                         "id": "ni5o2435boidfadsf",
                                                         "nombre": "Canción 1",
-                                                        "imagen": "https://example.com/imagen1.jpg"
+                                                        "imagen": "https://example.com/imagen1.jpg",
+                                                        "url": "https://example.com/cancion1.mp3",
+                                                        "album": "Álbum 1",
+                                                        "artista": "Artista 1"
                                                     },
                                                     {
                                                         "id": "432oi5jn2l3k4n5on",
                                                         "nombre": "Canción 2",
-                                                        "imagen": "https://example.com/imagen2.jpg"
+                                                        "imagen": "https://example.com/imagen2.jpg",
+                                                        "url": "https://example.com/cancion2.mp3",
+                                                        "album": "Álbum 2",
+                                                        "artista": "Artista 2"
                                                     }
                                                 ]
+                                            },
+                                            "estado": {
+                                                "type": "boolean",
+                                                "description": "Estado de la lista de reproducción, indicando si está activa o inactiva."
+                                            },
+                                            "publico": {
+                                                "type": "boolean",
+                                                "description": "Indica si la lista de reproducción es pública o privada."
                                             }
                                         }
                                     }
@@ -388,6 +518,117 @@
                     },
                     "404": {
                         "description": "No se encontraron listas de reproducción con ese nombre."
+                    },
+                    "500": {
+                        "description": "Error al obtener las listas de reproducción desde la base de datos."
+                    }
+                }
+            }
+        },
+        "/api/listas/getListsUserId/{idUser}": {
+            "get": {
+                "summary": "Obtener listas de reproducción por ID de usuario",
+                "description": "Retorna todas las listas de reproducción que pertenecen al usuario especificado.",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "path",
+                        "description": "ID del usuario propietario de las listas de reproducción.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listas de reproducción obtenidas correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "ID único de la lista de reproducción."
+                                            },
+                                            "id_usuario": {
+                                                "type": "string",
+                                                "description": "ID del usuario propietario de la lista de reproducción."
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "description": "Nombre de la lista de reproducción."
+                                            },
+                                            "canciones": {
+                                                "type": "array",
+                                                "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "description": "ID único de la canción."
+                                                        },
+                                                        "nombre": {
+                                                            "type": "string",
+                                                            "description": "Nombre de la canción."
+                                                        },
+                                                        "imagen": {
+                                                            "type": "string",
+                                                            "description": "URL de la imagen de la canción."
+                                                        },
+                                                        "url": {
+                                                            "type": "string",
+                                                            "description": "URL de la canción."
+                                                        },
+                                                        "album": {
+                                                            "type": "string",
+                                                            "description": "Álbum al que pertenece la canción."
+                                                        },
+                                                        "artista": {
+                                                            "type": "string",
+                                                            "description": "Artista de la canción."
+                                                        }
+                                                    }
+                                                },
+                                                "example": [
+                                                    {
+                                                        "id": "ni5o2435boidfadsf",
+                                                        "nombre": "Canción 1",
+                                                        "imagen": "https://example.com/imagen1.jpg",
+                                                        "url": "https://example.com/cancion1.mp3",
+                                                        "album": "Álbum 1",
+                                                        "artista": "Artista 1"
+                                                    },
+                                                    {
+                                                        "id": "432oi5jn2l3k4n5on",
+                                                        "nombre": "Canción 2",
+                                                        "imagen": "https://example.com/imagen2.jpg",
+                                                        "url": "https://example.com/cancion2.mp3",
+                                                        "album": "Álbum 2",
+                                                        "artista": "Artista 2"
+                                                    }
+                                                ]
+                                            },
+                                            "estado": {
+                                                "type": "boolean",
+                                                "description": "Estado de la lista de reproducción, indicando si está activa o inactiva."
+                                            },
+                                            "publico": {
+                                                "type": "boolean",
+                                                "description": "Indica si la lista de reproducción es pública o privada."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron listas de reproducción para el usuario especificado."
                     },
                     "500": {
                         "description": "Error al obtener las listas de reproducción desde la base de datos."
@@ -435,6 +676,18 @@
                                                 "imagen": {
                                                     "type": "string",
                                                     "description": "URL de la imagen de la canción."
+                                                },
+                                                "url": {
+                                                    "type": "string",
+                                                    "description": "URL de la canción."
+                                                },
+                                                "album": {
+                                                    "type": "string",
+                                                    "description": "Álbum al que pertenece la canción."
+                                                },
+                                                "artista": {
+                                                    "type": "string",
+                                                    "description": "Artista de la canción."
                                                 }
                                             }
                                         },
@@ -442,12 +695,18 @@
                                             {
                                                 "id": "ni5o2435boidfadsf",
                                                 "nombre": "Canción 1",
-                                                "imagen": "https://example.com/imagen1.jpg"
+                                                "imagen": "https://example.com/imagen1.jpg",
+                                                "url": "https://example.com/cancion1.mp3",
+                                                "album": "Álbum 1",
+                                                "artista": "Artista 1"
                                             },
                                             {
                                                 "id": "432oi5jn2l3k4n5on",
                                                 "nombre": "Canción 2",
-                                                "imagen": "https://example.com/imagen2.jpg"
+                                                "imagen": "https://example.com/imagen2.jpg",
+                                                "url": "https://example.com/cancion2.mp3",
+                                                "album": "Álbum 2",
+                                                "artista": "Artista 2"
                                             }
                                         ]
                                     }
@@ -462,50 +721,70 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "string",
-                                                "description": "ID único de la lista de reproducción."
-                                            },
-                                            "id_usuario": {
-                                                "type": "string",
-                                                "description": "ID del usuario propietario de la lista de reproducción."
-                                            },
-                                            "nombre": {
-                                                "type": "string",
-                                                "description": "Nombre de la lista de reproducción."
-                                            },
-                                            "canciones": {
-                                                "type": "array",
-                                                "description": "Lista de canciones incluidas en la lista de reproducción.",
-                                                "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "string",
-                                                            "description": "ID único de la canción."
-                                                        },
-                                                        "nombre": {
-                                                            "type": "string",
-                                                            "description": "Nombre de la canción."
-                                                        },
-                                                        "imagen": {
-                                                            "type": "string",
-                                                            "description": "URL de la imagen de la canción."
-                                                        }
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "description": "ID único de la lista de reproducción."
+                                        },
+                                        "id_usuario": {
+                                            "type": "string",
+                                            "description": "ID del usuario propietario de la lista de reproducción."
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "description": "Nombre de la lista de reproducción."
+                                        },
+                                        "canciones": {
+                                            "type": "array",
+                                            "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "description": "ID único de la canción."
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "description": "Nombre de la canción."
+                                                    },
+                                                    "imagen": {
+                                                        "type": "string",
+                                                        "description": "URL de la imagen de la canción."
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "description": "URL de la canción."
+                                                    },
+                                                    "album": {
+                                                        "type": "string",
+                                                        "description": "Álbum al que pertenece la canción."
+                                                    },
+                                                    "artista": {
+                                                        "type": "string",
+                                                        "description": "Artista de la canción."
                                                     }
-                                                },
-                                                "example": [
-                                                    {
-                                                        "id": "ni5o2435boidfadsf",
-                                                        "nombre": "Canción 1",
-                                                        "imagen": "https://example.com/imagen1.jpg"
-                                                    }
-                                                ]
-                                            }
+                                                }
+                                            },
+                                            "example": [
+                                                {
+                                                    "id": "ni5o2435boidfadsf",
+                                                    "nombre": "Canción 1",
+                                                    "imagen": "https://example.com/imagen1.jpg",
+                                                    "url": "https://example.com/cancion1.mp3",
+                                                    "album": "Álbum 1",
+                                                    "artista": "Artista 1"
+                                                }
+                                            ]
+                                        },
+                                        "estado": {
+                                            "type": "boolean",
+                                            "description": "Estado de la lista de reproducción, indicando si está activa o inactiva."
+                                        },
+                                        "publico": {
+                                            "type": "boolean",
+                                            "description": "Indica si la lista de reproducción es pública o privada."
                                         }
                                     }
                                 }
@@ -680,10 +959,34 @@
                                                 "imagen": {
                                                     "type": "string",
                                                     "description": "URL de la imagen de la canción."
+                                                },
+                                                "url": {
+                                                    "type": "string",
+                                                    "description": "URL de la canción."
+                                                },
+                                                "album": {
+                                                    "type": "string",
+                                                    "description": "Álbum al que pertenece la canción."
+                                                },
+                                                "artista": {
+                                                    "type": "string",
+                                                    "description": "Artista de la canción."
                                                 }
                                             }
                                         }
                                     }
+                                },
+                                "example": {
+                                    "canciones": [
+                                        {
+                                            "id": "ni5o2435boidfadsf",
+                                            "nombre": "Canción 1",
+                                            "imagen": "https://example.com/imagen1.jpg",
+                                            "url": "https://example.com/cancion1.mp3",
+                                            "album": "Álbum 1",
+                                            "artista": "Artista 1"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -726,6 +1029,18 @@
                                                     "imagen": {
                                                         "type": "string",
                                                         "description": "URL de la imagen de la canción."
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "description": "URL de la canción."
+                                                    },
+                                                    "album": {
+                                                        "type": "string",
+                                                        "description": "Álbum al que pertenece la canción."
+                                                    },
+                                                    "artista": {
+                                                        "type": "string",
+                                                        "description": "Artista de la canción."
                                                     }
                                                 }
                                             }
@@ -738,6 +1053,23 @@
                                             "type": "boolean",
                                             "description": "Indica si la lista de reproducción es pública."
                                         }
+                                    },
+                                    "example": {
+                                        "id": "12345",
+                                        "id_usuario": "54321",
+                                        "nombre": "Mi Lista de Reproducción",
+                                        "canciones": [
+                                            {
+                                                "id": "ni5o2435boidfadsf",
+                                                "nombre": "Canción 1",
+                                                "imagen": "https://example.com/imagen1.jpg",
+                                                "url": "https://example.com/cancion1.mp3",
+                                                "album": "Álbum 1",
+                                                "artista": "Artista 1"
+                                            }
+                                        ],
+                                        "estado": true,
+                                        "publico": true
                                     }
                                 }
                             }
@@ -879,6 +1211,18 @@
                                                     "imagen": {
                                                         "type": "string",
                                                         "description": "URL de la imagen de la canción."
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "description": "URL de la canción."
+                                                    },
+                                                    "album": {
+                                                        "type": "string",
+                                                        "description": "Álbum al que pertenece la canción."
+                                                    },
+                                                    "artista": {
+                                                        "type": "string",
+                                                        "description": "Artista de la canción."
                                                     }
                                                 }
                                             }
@@ -892,6 +1236,23 @@
                                             "description": "Indica si la lista de reproducción es pública."
                                         }
                                     }
+                                },
+                                "example": {
+                                    "id": "12345",
+                                    "id_usuario": "54321",
+                                    "nombre": "Mi Lista de Reproducción",
+                                    "canciones": [
+                                        {
+                                            "id": "ni5o2435boidfadsf",
+                                            "nombre": "Canción 1",
+                                            "imagen": "https://example.com/imagen1.jpg",
+                                            "url": "https://example.com/cancion1.mp3",
+                                            "album": "Álbum 1",
+                                            "artista": "Artista 1"
+                                        }
+                                    ],
+                                    "estado": false,
+                                    "publico": true
                                 }
                             }
                         }
@@ -957,6 +1318,18 @@
                                                     "imagen": {
                                                         "type": "string",
                                                         "description": "URL de la imagen de la canción."
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "description": "URL de la canción."
+                                                    },
+                                                    "album": {
+                                                        "type": "string",
+                                                        "description": "Álbum al que pertenece la canción."
+                                                    },
+                                                    "artista": {
+                                                        "type": "string",
+                                                        "description": "Artista de la canción."
                                                     }
                                                 }
                                             }
@@ -970,6 +1343,23 @@
                                             "description": "Indica si la lista de reproducción es pública."
                                         }
                                     }
+                                },
+                                "example": {
+                                    "id": "12345",
+                                    "id_usuario": "54321",
+                                    "nombre": "Mi Lista de Reproducción",
+                                    "canciones": [
+                                        {
+                                            "id": "ni5o2435boidfadsf",
+                                            "nombre": "Canción 1",
+                                            "imagen": "https://example.com/imagen1.jpg",
+                                            "url": "https://example.com/cancion1.mp3",
+                                            "album": "Álbum 1",
+                                            "artista": "Artista 1"
+                                        }
+                                    ],
+                                    "estado": true,
+                                    "publico": true
                                 }
                             }
                         }
@@ -1051,6 +1441,18 @@
                                                     "imagen": {
                                                         "type": "string",
                                                         "description": "URL de la imagen de la canción."
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "description": "URL de la canción."
+                                                    },
+                                                    "album": {
+                                                        "type": "string",
+                                                        "description": "Álbum al que pertenece la canción."
+                                                    },
+                                                    "artista": {
+                                                        "type": "string",
+                                                        "description": "Artista de la canción."
                                                     }
                                                 }
                                             }
@@ -1064,6 +1466,23 @@
                                             "description": "Indica si la lista de reproducción es pública."
                                         }
                                     }
+                                },
+                                "example": {
+                                    "id": "12345",
+                                    "id_usuario": "54321",
+                                    "nombre": "Nuevo Título de la Lista",
+                                    "canciones": [
+                                        {
+                                            "id": "ni5o2435boidfadsf",
+                                            "nombre": "Canción 1",
+                                            "imagen": "https://example.com/imagen1.jpg",
+                                            "url": "https://example.com/cancion1.mp3",
+                                            "album": "Álbum 1",
+                                            "artista": "Artista 1"
+                                        }
+                                    ],
+                                    "estado": true,
+                                    "publico": true
                                 }
                             }
                         }
@@ -1145,6 +1564,18 @@
                                                     "imagen": {
                                                         "type": "string",
                                                         "description": "URL de la imagen de la canción."
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "description": "URL de la canción."
+                                                    },
+                                                    "album": {
+                                                        "type": "string",
+                                                        "description": "Álbum al que pertenece la canción."
+                                                    },
+                                                    "artista": {
+                                                        "type": "string",
+                                                        "description": "Artista de la canción."
                                                     }
                                                 }
                                             }
@@ -1158,6 +1589,23 @@
                                             "description": "Indica si la lista de reproducción es pública."
                                         }
                                     }
+                                },
+                                "example": {
+                                    "id": "12345",
+                                    "id_usuario": "54321",
+                                    "nombre": "Mi Lista de Reproducción",
+                                    "canciones": [
+                                        {
+                                            "id": "ni5o2435boidfadsf",
+                                            "nombre": "Canción 1",
+                                            "imagen": "https://example.com/imagen1.jpg",
+                                            "url": "https://example.com/cancion1.mp3",
+                                            "album": "Álbum 1",
+                                            "artista": "Artista 1"
+                                        }
+                                    ],
+                                    "estado": true,
+                                    "publico": true
                                 }
                             }
                         }
