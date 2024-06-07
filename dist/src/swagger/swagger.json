@@ -636,6 +636,117 @@
                 }
             }
         },
+        "/api/listas/getListsUserIdInactive/{idUser}": {
+            "get": {
+                "summary": "Obtener listas de reproducción por ID de usuario",
+                "description": "Retorna todas las listas de reproducción que pertenecen al usuario especificado que no esten activas.",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "path",
+                        "description": "ID del usuario propietario de las listas de reproducción.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listas de reproducción obtenidas correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "description": "ID único de la lista de reproducción."
+                                            },
+                                            "id_usuario": {
+                                                "type": "string",
+                                                "description": "ID del usuario propietario de la lista de reproducción."
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "description": "Nombre de la lista de reproducción."
+                                            },
+                                            "canciones": {
+                                                "type": "array",
+                                                "description": "Lista de canciones incluidas en la lista de reproducción.",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string",
+                                                            "description": "ID único de la canción."
+                                                        },
+                                                        "nombre": {
+                                                            "type": "string",
+                                                            "description": "Nombre de la canción."
+                                                        },
+                                                        "imagen": {
+                                                            "type": "string",
+                                                            "description": "URL de la imagen de la canción."
+                                                        },
+                                                        "url": {
+                                                            "type": "string",
+                                                            "description": "URL de la canción."
+                                                        },
+                                                        "album": {
+                                                            "type": "string",
+                                                            "description": "Álbum al que pertenece la canción."
+                                                        },
+                                                        "artista": {
+                                                            "type": "string",
+                                                            "description": "Artista de la canción."
+                                                        }
+                                                    }
+                                                },
+                                                "example": [
+                                                    {
+                                                        "id": "ni5o2435boidfadsf",
+                                                        "nombre": "Canción 1",
+                                                        "imagen": "https://example.com/imagen1.jpg",
+                                                        "url": "https://example.com/cancion1.mp3",
+                                                        "album": "Álbum 1",
+                                                        "artista": "Artista 1"
+                                                    },
+                                                    {
+                                                        "id": "432oi5jn2l3k4n5on",
+                                                        "nombre": "Canción 2",
+                                                        "imagen": "https://example.com/imagen2.jpg",
+                                                        "url": "https://example.com/cancion2.mp3",
+                                                        "album": "Álbum 2",
+                                                        "artista": "Artista 2"
+                                                    }
+                                                ]
+                                            },
+                                            "estado": {
+                                                "type": "boolean",
+                                                "description": "Estado de la lista de reproducción, indicando si está activa o inactiva."
+                                            },
+                                            "publico": {
+                                                "type": "boolean",
+                                                "description": "Indica si la lista de reproducción es pública o privada."
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron listas de reproducción para el usuario especificado."
+                    },
+                    "500": {
+                        "description": "Error al obtener las listas de reproducción desde la base de datos."
+                    }
+                }
+            }
+        },
         "/api/listas/addListWithSong": {
             "post": {
                 "summary": "Agrega una nueva lista de reproducción con canción.",
@@ -1087,7 +1198,7 @@
                 }
             }
         },
-        "/api/listas/deleteSong/{idList}": {
+        "/api/listas/deleteSong/{idList}/{idCancion}": {
             "delete": {
                 "summary": "Elimina una canción de una lista de reproducción.",
                 "description": "Elimina una canción específica de una lista de reproducción existente en la base de datos.",
@@ -1100,27 +1211,55 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "in": "path",
+                        "name": "idCancion",
+                        "required": true,
+                        "description": "ID de la canción que se eliminará de la lista de reproducción.",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "idCancion": {
-                                        "type": "string",
-                                        "description": "Id de la cancion."
+                "responses": {
+                    "200": {
+                        "description": "Canción eliminada correctamente de la lista de reproducción.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": { "type": "boolean" },
+                                        "message": { "type": "string" },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": { "type": "string" },
+                                                    "nombre": { "type": "string" },
+                                                    "id_usuario": { "type": "string" },
+                                                    "canciones": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "id": { "type": "string" },
+                                                                "nombre": { "type": "string" },
+                                                                "imagen": { "type": "string" }
+                                                            }
+                                                        }
+                                                    },
+                                                    "estado": { "type": "boolean" },
+                                                    "publico": { "type": "boolean" }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Canción eliminada correctamente de la lista de reproducción."
                     },
                     "404": {
                         "description": "La lista de reproducción o la canción no existen."
@@ -1373,7 +1512,7 @@
                 }
             }
         },
-        "/api/listas/updateTitle/{idList}": {
+        "/api/listas/updateTitle/{idList}/{nombre}": {
             "patch": {
                 "summary": "Actualizar el título de una lista de reproducción.",
                 "description": "Actualiza el título de una lista de reproducción existente en la base de datos.",
@@ -1386,24 +1525,17 @@
                         "schema": {
                             "type": "string"
                         }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "nombre": {
-                                        "type": "string",
-                                        "description": "Nuevo título de la lista de reproducción."
-                                    }
-                                }
-                            }
+                    },
+                    {
+                        "in": "path",
+                        "name": "nombre",
+                        "required": true,
+                        "description": "Nuevo nombre de la lista de reproduccion.",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Título de la lista de reproducción actualizado correctamente.",
@@ -1496,7 +1628,7 @@
                 }
             }
         },
-        "/api/listas/updatePublic/{idList}": {
+        "/api/listas/updatePublic/{idList}/{publico}": {
             "patch": {
                 "summary": "Actualizar la visibilidad de una lista de reproducción.",
                 "description": "Actualiza la visibilidad de una lista de reproducción existente en la base de datos.",
@@ -1509,24 +1641,17 @@
                         "schema": {
                             "type": "string"
                         }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "publico": {
-                                        "type": "boolean",
-                                        "description": "Nuevo estado de visibilidad de la lista de reproducción."
-                                    }
-                                }
-                            }
+                    },
+                    {
+                        "in": "path",
+                        "name": "publico",
+                        "required": true,
+                        "description": "Enviar true o false para saber si la lista es publica o no",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Visibilidad de la lista de reproducción actualizada correctamente.",

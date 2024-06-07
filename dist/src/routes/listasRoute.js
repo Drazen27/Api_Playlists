@@ -76,7 +76,9 @@ router.get('/listas/getAllLists', (req, res) => __awaiter(void 0, void 0, void 0
 router.get('/listas/getAllListsActive', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Realiza una consulta a Firestore para obtener todas las listas de reproducción activas
-        const listasRef = firebase_1.db.collection('playlist').where('estado', '==', true);
+        const listasRef = firebase_1.db.collection('playlist')
+            .where('estado', '==', true)
+            .where('publico', '==', true);
         const snapshot = yield listasRef.get();
         if (snapshot.empty) {
             // Si no hay documentos en la colección, envía una respuesta de error 404
@@ -133,7 +135,9 @@ router.get('/listas/getAllListsActive', (req, res) => __awaiter(void 0, void 0, 
 router.get('/listas/getAllListsInactive', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Realiza una consulta a Firestore para obtener todas las listas de reproducción inactivas
-        const listasRef = firebase_1.db.collection('playlist').where('estado', '==', false);
+        const listasRef = firebase_1.db.collection('playlist')
+            .where('estado', '==', false)
+            .where('publico', '==', true);
         const snapshot = yield listasRef.get();
         if (snapshot.empty) {
             // Si no hay documentos en la colección, envía una respuesta de error 404
@@ -291,7 +295,64 @@ router.get('/listas/getListsUserId/:idUser', (req, res) => __awaiter(void 0, voi
     try {
         const idUser = req.params.idUser;
         // Realiza una consulta a Firestore para encontrar las listas con el mismo nombre
-        const querySnapshot = yield firebase_1.db.collection('playlist').where('id_usuario', '==', idUser).get();
+        const querySnapshot = yield firebase_1.db.collection('playlist')
+            .where('id_usuario', '==', idUser)
+            .where('estado', '==', true).get();
+        const listasEncontradas = [];
+        // Iterar sobre los resultados de la consulta
+        querySnapshot.forEach(doc => {
+            const data = doc.data();
+            const playlist = {
+                id: doc.id,
+                nombre: data.nombre,
+                id_usuario: data.id_usuario,
+                canciones: data.canciones,
+                publico: data.publico,
+                estado: data.estado
+            };
+            listasEncontradas.push(playlist);
+        });
+        // Verificar si se encontraron listas
+        if (listasEncontradas.length === 0) {
+            const response = {
+                success: false,
+                message: 'No se encontraron listas de reproducción de ese usuario',
+                errorCode: 'NOT_FOUND',
+                errorMessage: '',
+                data: []
+            };
+            return res.status(404).json(response);
+        }
+        // Devolver las listas encontradas
+        const response = {
+            success: true,
+            message: 'Listas de reproducción obtenidas correctamente',
+            errorCode: '',
+            errorMessage: '',
+            data: listasEncontradas
+        };
+        res.status(200).json(response);
+    }
+    catch (error) {
+        console.error('Error al obtener las listas de reproducción por usuario:', error);
+        const errorMessage = error instanceof Error ? error.message : '';
+        const response = {
+            success: false,
+            message: 'Error al obtener las listas de reproducción por usuario',
+            errorCode: 'INTERNAL_ERROR',
+            errorMessage: errorMessage,
+            data: []
+        };
+        res.status(500).json(response);
+    }
+}));
+router.get('/listas/getListsUserIdInactive/:idUser', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const idUser = req.params.idUser;
+        // Realiza una consulta a Firestore para encontrar las listas con el mismo nombre
+        const querySnapshot = yield firebase_1.db.collection('playlist')
+            .where('id_usuario', '==', idUser)
+            .where('estado', '==', false).get();
         const listasEncontradas = [];
         // Iterar sobre los resultados de la consulta
         querySnapshot.forEach(doc => {
@@ -514,12 +575,11 @@ router.post('/listas/addSongs/:idList', (req, res) => __awaiter(void 0, void 0, 
     }
 }));
 // Define la ruta DELETE /listas/deleteCancion/:idLista/
-router.delete('/listas/deleteSong/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete('/listas/deleteSong/:idList/:idCancion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
-        // Obtén el ID de la canción desde el cuerpo de la solicitud
-        const { idCancion } = req.body;
+        const idCancion = req.params.idCancion;
         // Valida el ID de la canción
         if (!idCancion) {
             const response = {
@@ -742,12 +802,12 @@ router.patch('/listas/activatePlaylist/:idList', (req, res) => __awaiter(void 0,
     }
 }));
 //Cambiar titulo
-router.patch('/listas/updateTitle/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/listas/updateTitle/:idList/:nombre', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
         // Obtén el nuevo título del cuerpo de la solicitud
-        const { nombre } = req.body;
+        const nombre = req.params.nombre;
         // Valida los datos recibidos
         if (!nombre) {
             const response = {
@@ -810,12 +870,12 @@ router.patch('/listas/updateTitle/:idList', (req, res) => __awaiter(void 0, void
     }
 }));
 //Cambiar estado publico
-router.patch('/listas/updatePublic/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/listas/updatePublic/:idList/:publico', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
         // Obtén el nuevo valor de 'publico' del cuerpo de la solicitud
-        const { publico } = req.body;
+        const publico = JSON.parse(req.params.publico.toLowerCase());
         // Valida los datos recibidos
         if (typeof publico !== 'boolean') {
             const response = {
