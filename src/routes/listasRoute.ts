@@ -4,7 +4,6 @@ const router: Router = express.Router();
 import {Playlist} from '../models/playlist';
 import {PlaylistResponse} from '../dataContract/response/playlistResponse';
 import { PlaylistRequest } from '../dataContract/request/playlistRequest';
-import { PlaylistSongRequest } from '../dataContract/request/playlistSongRequest';
 
 // getAlllist
 router.get('/listas/getAllLists', async (req: Request, res: Response) => {
@@ -66,7 +65,9 @@ router.get('/listas/getAllLists', async (req: Request, res: Response) => {
 router.get('/listas/getAllListsActive', async (req: Request, res: Response) => {
   try {
     // Realiza una consulta a Firestore para obtener todas las listas de reproducción activas
-    const listasRef = db.collection('playlist').where('estado', '==', true);
+    const listasRef = db.collection('playlist')
+    .where('estado', '==', true)
+    .where('publico', '==', true);
     const snapshot = await listasRef.get();
 
     if (snapshot.empty) {
@@ -122,7 +123,9 @@ router.get('/listas/getAllListsActive', async (req: Request, res: Response) => {
 router.get('/listas/getAllListsInactive', async (req: Request, res: Response) => {
   try {
     // Realiza una consulta a Firestore para obtener todas las listas de reproducción inactivas
-    const listasRef = db.collection('playlist').where('estado', '==', false);
+    const listasRef = db.collection('playlist')
+    .where('estado', '==', false)
+    .where('publico', '==', true);
     const snapshot = await listasRef.get();
 
     if (snapshot.empty) {
@@ -288,7 +291,9 @@ router.get('/listas/getListsUserId/:idUser', async (req: Request, res: Response)
     const idUser: string = req.params.idUser;
 
     // Realiza una consulta a Firestore para encontrar las listas con el mismo nombre
-    const querySnapshot = await db.collection('playlist').where('id_usuario', '==', idUser).get();
+    const querySnapshot = await db.collection('playlist')
+    .where('id_usuario', '==', idUser)
+    .where('estado', '==', true).get();
 
     const listasEncontradas: Playlist[] = [];
 
@@ -341,7 +346,66 @@ router.get('/listas/getListsUserId/:idUser', async (req: Request, res: Response)
     res.status(500).json(response);
   }
 });
+router.get('/listas/getListsUserIdInactive/:idUser', async (req: Request, res: Response) => {
+  try {
+    const idUser: string = req.params.idUser;
 
+    // Realiza una consulta a Firestore para encontrar las listas con el mismo nombre
+    const querySnapshot = await db.collection('playlist')
+    .where('id_usuario', '==', idUser)
+    .where('estado', '==', false).get();
+
+    const listasEncontradas: Playlist[] = [];
+
+    // Iterar sobre los resultados de la consulta
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      const playlist: Playlist = {
+        id: doc.id,
+        nombre: data.nombre,
+        id_usuario: data.id_usuario,
+        canciones: data.canciones,
+        publico: data.publico,
+        estado: data.estado
+      };
+      listasEncontradas.push(playlist);
+    });
+
+    // Verificar si se encontraron listas
+    if (listasEncontradas.length === 0) {
+      const response: PlaylistResponse = {
+        success: false,
+        message: 'No se encontraron listas de reproducción de ese usuario',
+        errorCode: 'NOT_FOUND',
+        errorMessage: '',
+        data: []
+      };
+      return res.status(404).json(response);
+    }
+
+    // Devolver las listas encontradas
+    const response: PlaylistResponse = {
+      success: true,
+      message: 'Listas de reproducción obtenidas correctamente',
+      errorCode: '',
+      errorMessage: '',
+      data: listasEncontradas
+    };
+    res.status(200).json(response);
+
+  } catch (error) {
+    console.error('Error al obtener las listas de reproducción por usuario:', error);
+    const errorMessage = error instanceof Error ? error.message : '';
+    const response: PlaylistResponse = {
+      success: false,
+      message: 'Error al obtener las listas de reproducción por usuario',
+      errorCode: 'INTERNAL_ERROR',
+      errorMessage: errorMessage,
+      data: []
+    };
+    res.status(500).json(response);
+  }
+});
 
 //AddList
 router.post('/listas/addList', async (req: Request, res: Response) => {
@@ -530,12 +594,11 @@ router.post('/listas/addSongs/:idList', async (req: Request, res: Response) => {
 
 
 // Define la ruta DELETE /listas/deleteCancion/:idLista/
-router.delete('/listas/deleteSong/:idList', async (req: Request, res: Response) => {
+router.delete('/listas/deleteSong/:idList/:idCancion', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
-    // Obtén el ID de la canción desde el cuerpo de la solicitud
-    const { idCancion }: PlaylistSongRequest = req.body;
+    const idCancion: string = req.params.idCancion;
 
     // Valida el ID de la canción
     if (!idCancion) {
@@ -769,13 +832,13 @@ router.patch('/listas/activatePlaylist/:idList', async (req: Request, res: Respo
   }
 });
 //Cambiar titulo
-router.patch('/listas/updateTitle/:idList', async (req: Request, res: Response) => {
+router.patch('/listas/updateTitle/:idList/:nombre', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
 
     // Obtén el nuevo título del cuerpo de la solicitud
-    const { nombre }: PlaylistRequest = req.body;
+    const nombre: string = req.params.nombre;
 
     // Valida los datos recibidos
     if (!nombre) {
@@ -844,13 +907,14 @@ router.patch('/listas/updateTitle/:idList', async (req: Request, res: Response) 
   }
 });
 //Cambiar estado publico
-router.patch('/listas/updatePublic/:idList', async (req: Request, res: Response) => {
+router.patch('/listas/updatePublic/:idList/:publico', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
 
     // Obtén el nuevo valor de 'publico' del cuerpo de la solicitud
-    const { publico }: PlaylistRequest = req.body;
+    const publico: boolean = JSON.parse(req.params.publico.toLowerCase());
+    
 
     // Valida los datos recibidos
     if (typeof publico !== 'boolean') {
