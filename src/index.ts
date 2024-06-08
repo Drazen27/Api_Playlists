@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import listaRoute from "./routes/listasRoute"
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from "./swagger/swagger.json";
+import bodyParser from 'body-parser';
+import { authenticateJWT } from './auth';
+
 const CSS_URL =
   "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
 
@@ -40,7 +43,8 @@ app.use(allowCors);
 app.use(express.json());
 
 
-app.use("/api",cors(corsOptions),listaRoute);
+app.use("/api",cors(corsOptions),authenticateJWT,listaRoute);
+
 app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 
 app.get("/swagger.json", (req: Request, res: Response) => {
