@@ -598,7 +598,7 @@ router.delete('/listas/deleteSong/:idList/:idCancion', async (req: Request, res:
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
-    const idCancion: string = req.params.idCancion;
+    const idCancion: number = Number(req.params.idCancion);
 
     // Valida el ID de la canción
     if (!idCancion) {
