@@ -9,6 +9,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const listasRoute_1 = __importDefault(require("./routes/listasRoute"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("./swagger/swagger.json"));
+const auth_1 = require("./auth");
 const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
 var cors = require('cors');
 dotenv_1.default.config();
@@ -35,7 +36,7 @@ const port = process.env.PORT;
 //const port = 3000;
 app.use(allowCors);
 app.use(express_1.default.json());
-app.use("/api", cors(corsOptions), listasRoute_1.default);
+app.use("/api", cors(corsOptions), auth_1.authenticateJWT, listasRoute_1.default);
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
 app.get("/swagger.json", (req, res) => {
     res.json(swagger_json_1.default);
