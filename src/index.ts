@@ -2,6 +2,7 @@
 import express, { Express, Request, Response,Router } from "express";
 import dotenv from "dotenv";
 import listaRoute from "./routes/listasRoute"
+import algoritmoRoute from "./routes/algoritmoRoute"
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from "./swagger/swagger.json";
 import bodyParser from 'body-parser';
@@ -44,6 +45,8 @@ app.use(express.json());
 
 
 app.use("/api",cors(corsOptions),authenticateJWT,listaRoute);
+
+app.use("/api",cors(corsOptions),algoritmoRoute);
 
 app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 

@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const listasRoute_1 = __importDefault(require("./routes/listasRoute"));
+const algoritmoRoute_1 = __importDefault(require("./routes/algoritmoRoute"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("./swagger/swagger.json"));
 const auth_1 = require("./auth");
@@ -37,6 +38,7 @@ const port = process.env.PORT;
 app.use(allowCors);
 app.use(express_1.default.json());
 app.use("/api", cors(corsOptions), auth_1.authenticateJWT, listasRoute_1.default);
+app.use("/api", cors(corsOptions), algoritmoRoute_1.default);
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
 app.get("/swagger.json", (req, res) => {
     res.json(swagger_json_1.default);
