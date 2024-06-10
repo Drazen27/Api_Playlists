@@ -16,7 +16,7 @@ interface EstadoGlobal {
     estadoLocal: null,
   };
   
-  router.post('/algoritmo/iniciar', async (req: Request, res: Response) => {
+  router.post('/iniciar', async (req: Request, res: Response) => {
     try {
       grabarEstadoLocal();
       await enviarMarcadorATodos();
@@ -26,7 +26,7 @@ interface EstadoGlobal {
     }
   });
   
-  router.post('/algoritmo/recibirMarcador', async (req: Request, res: Response) => {
+  router.post('/recibirMarcador', async (req: Request, res: Response) => {
     const from = req.query.from as string;
     if (!from) {
       return res.status(400).send("Parámetro 'from' es requerido");
@@ -48,7 +48,7 @@ interface EstadoGlobal {
     }
   });
   
-  router.post('/algoritmo/recibirMensaje', (req: Request, res: Response) => {
+  router.post('/recibirMensaje', (req: Request, res: Response) => {
     const mensaje = req.query.mensaje as string;
     const from = req.query.from as string;
   
@@ -69,12 +69,14 @@ interface EstadoGlobal {
   
   async function enviarMarcadorATodos() {
     const otrosMicroservicios = ['https://www.andsoundapi.somee.com/api/algoritmo/recibirMarcador', 'https://apilikesandino.onrender.com/api/algoritmo/recibirMarcador'];
-  
+    console.log(otrosMicroservicios);
     const promises = otrosMicroservicios.map(url =>
       axios.post(url, null, { params: { from: 'express' } })
+      
     );
-  
+    console.log(promises);
     await Promise.all(promises);
+    
   }
   
   function todosMarcadoresRecibidos(): boolean {

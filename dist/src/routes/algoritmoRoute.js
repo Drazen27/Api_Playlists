@@ -21,7 +21,7 @@ const estadoGlobal = {
     canalesMarcador: new Set(),
     estadoLocal: null,
 };
-router.post('/algoritmo/iniciar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/iniciar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         grabarEstadoLocal();
         yield enviarMarcadorATodos();
@@ -31,7 +31,7 @@ router.post('/algoritmo/iniciar', (req, res) => __awaiter(void 0, void 0, void 0
         res.status(500).send("Error al iniciar el algoritmo");
     }
 }));
-router.post('/algoritmo/recibirMarcador', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/recibirMarcador', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const from = req.query.from;
     if (!from) {
         return res.status(400).send("Parámetro 'from' es requerido");
@@ -52,7 +52,7 @@ router.post('/algoritmo/recibirMarcador', (req, res) => __awaiter(void 0, void 0
         res.status(500).send("Error al recibir el marcador");
     }
 }));
-router.post('/algoritmo/recibirMensaje', (req, res) => {
+router.post('/recibirMensaje', (req, res) => {
     const mensaje = req.query.mensaje;
     const from = req.query.from;
     if (!mensaje || !from) {
@@ -70,7 +70,9 @@ function grabarEstadoLocal() {
 function enviarMarcadorATodos() {
     return __awaiter(this, void 0, void 0, function* () {
         const otrosMicroservicios = ['https://www.andsoundapi.somee.com/api/algoritmo/recibirMarcador', 'https://apilikesandino.onrender.com/api/algoritmo/recibirMarcador'];
+        console.log(otrosMicroservicios);
         const promises = otrosMicroservicios.map(url => axios_1.default.post(url, null, { params: { from: 'express' } }));
+        console.log(promises);
         yield Promise.all(promises);
     });
 }

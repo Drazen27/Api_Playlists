@@ -6,7 +6,7 @@ import {PlaylistResponse} from '../dataContract/response/playlistResponse';
 import { PlaylistRequest } from '../dataContract/request/playlistRequest';
 
 // getAlllist
-router.get('/listas/getAllLists', async (req: Request, res: Response) => {
+router.get('/getAllLists', async (req: Request, res: Response) => {
   try {
     // Realiza una consulta a Firestore para obtener todas las listas de reproducción
     const listasRef = db.collection('playlist');
@@ -62,7 +62,7 @@ router.get('/listas/getAllLists', async (req: Request, res: Response) => {
   }
 });
 // Endpoint para obtener todas las listas de reproducción activas
-router.get('/listas/getAllListsActive', async (req: Request, res: Response) => {
+router.get('/getAllListsActive', async (req: Request, res: Response) => {
   try {
     // Realiza una consulta a Firestore para obtener todas las listas de reproducción activas
     const listasRef = db.collection('playlist')
@@ -120,7 +120,7 @@ router.get('/listas/getAllListsActive', async (req: Request, res: Response) => {
   }
 });
 // Endpoint para obtener todas las listas de reproducción inactivas
-router.get('/listas/getAllListsInactive', async (req: Request, res: Response) => {
+router.get('/getAllListsInactive', async (req: Request, res: Response) => {
   try {
     // Realiza una consulta a Firestore para obtener todas las listas de reproducción inactivas
     const listasRef = db.collection('playlist')
@@ -178,7 +178,7 @@ router.get('/listas/getAllListsInactive', async (req: Request, res: Response) =>
   }
 });
 // Define la ruta /listas/getList/:idList
-router.get('/listas/getList/:idList', async (req: Request, res: Response) => {
+router.get('/getList/:idList', async (req: Request, res: Response) => {
   try {
     const idLista: string = req.params.idList;
 
@@ -228,7 +228,7 @@ router.get('/listas/getList/:idList', async (req: Request, res: Response) => {
 });
 
 // Define la ruta /listas/getListsByName/:nombreLista
-router.get('/listas/getListsByName/:nombreLista', async (req: Request, res: Response) => {
+router.get('/getListsByName/:nombreLista', async (req: Request, res: Response) => {
   try {
     const nombreLista: string = req.params.nombreLista;
 
@@ -286,7 +286,7 @@ router.get('/listas/getListsByName/:nombreLista', async (req: Request, res: Resp
     res.status(500).json(response);
   }
 });
-router.get('/listas/getListsUserId/:idUser', async (req: Request, res: Response) => {
+router.get('/getListsUserId/:idUser', async (req: Request, res: Response) => {
   try {
     const idUser: string = req.params.idUser;
 
@@ -346,7 +346,7 @@ router.get('/listas/getListsUserId/:idUser', async (req: Request, res: Response)
     res.status(500).json(response);
   }
 });
-router.get('/listas/getListsUserIdInactive/:idUser', async (req: Request, res: Response) => {
+router.get('/getListsUserIdInactive/:idUser', async (req: Request, res: Response) => {
   try {
     const idUser: string = req.params.idUser;
 
@@ -408,7 +408,7 @@ router.get('/listas/getListsUserIdInactive/:idUser', async (req: Request, res: R
 });
 
 //AddList
-router.post('/listas/addList', async (req: Request, res: Response) => {
+router.post('/addList', async (req: Request, res: Response) => {
   try {
     // Obtén los datos del cuerpo de la solicitud
     const { nombre, id_usuario, publico, canciones }: PlaylistRequest = req.body;
@@ -465,7 +465,7 @@ router.post('/listas/addList', async (req: Request, res: Response) => {
 });
 
 // Define la ruta /listas/addListWithSong
-router.post('/listas/addListWithSong', async (req: Request, res: Response) => {
+router.post('/addListWithSong', async (req: Request, res: Response) => {
   try {
     // Obtén los datos del cuerpo de la solicitud
     const { nombre, id_usuario, publico, canciones }: PlaylistRequest = req.body;
@@ -522,7 +522,7 @@ router.post('/listas/addListWithSong', async (req: Request, res: Response) => {
 });
 
 
-router.post('/listas/addSongs/:idList', async (req: Request, res: Response) => {
+router.post('/addSongs/:idList', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
@@ -594,7 +594,7 @@ router.post('/listas/addSongs/:idList', async (req: Request, res: Response) => {
 
 
 // Define la ruta DELETE /listas/deleteCancion/:idLista/
-router.delete('/listas/deleteSong/:idList/:idCancion', async (req: Request, res: Response) => {
+router.delete('/deleteSong/:idList/:idCancion', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
@@ -674,7 +674,7 @@ router.delete('/listas/deleteSong/:idList/:idCancion', async (req: Request, res:
     res.status(500).json(response);
   }
 });
-router.delete('/listas/deletePlaylist/:idList', async (req: Request, res: Response) => {
+router.delete('/deletePlaylist/:idList', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
@@ -718,7 +718,7 @@ router.delete('/listas/deletePlaylist/:idList', async (req: Request, res: Respon
   }
 });
 //desactivarPlaylist
-router.patch('/listas/deactivatePlaylist/:idList', async (req: Request, res: Response) => {
+router.patch('/deactivatePlaylist/:idList', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
@@ -775,7 +775,7 @@ router.patch('/listas/deactivatePlaylist/:idList', async (req: Request, res: Res
   }
 });
 //Activar playlist
-router.patch('/listas/activatePlaylist/:idList', async (req: Request, res: Response) => {
+router.patch('/activatePlaylist/:idList', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
@@ -832,7 +832,7 @@ router.patch('/listas/activatePlaylist/:idList', async (req: Request, res: Respo
   }
 });
 //Cambiar titulo
-router.patch('/listas/updateTitle/:idList/:nombre', async (req: Request, res: Response) => {
+router.patch('/updateTitle/:idList/:nombre', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;
@@ -907,7 +907,7 @@ router.patch('/listas/updateTitle/:idList/:nombre', async (req: Request, res: Re
   }
 });
 //Cambiar estado publico
-router.patch('/listas/updatePublic/:idList/:publico', async (req: Request, res: Response) => {
+router.patch('/updatePublic/:idList/:publico', async (req: Request, res: Response) => {
   try {
     // Obtén el ID de la lista de reproducción desde los parámetros de la URL
     const idLista: string = req.params.idList;

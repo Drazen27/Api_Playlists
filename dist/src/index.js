@@ -37,8 +37,8 @@ const port = process.env.PORT;
 //const port = 3000;
 app.use(allowCors);
 app.use(express_1.default.json());
-app.use("/api", cors(corsOptions), auth_1.authenticateJWT, listasRoute_1.default);
-app.use("/api", cors(corsOptions), algoritmoRoute_1.default);
+app.use("/api/listas", cors(corsOptions), auth_1.authenticateJWT, listasRoute_1.default);
+app.use("/api/algoritmo", cors(corsOptions), algoritmoRoute_1.default);
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
 app.get("/swagger.json", (req, res) => {
     res.json(swagger_json_1.default);

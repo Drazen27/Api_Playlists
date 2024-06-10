@@ -44,9 +44,9 @@ app.use(allowCors);
 app.use(express.json());
 
 
-app.use("/api",cors(corsOptions),authenticateJWT,listaRoute);
+app.use("/api/listas",cors(corsOptions),authenticateJWT,listaRoute);
 
-app.use("/api",cors(corsOptions),algoritmoRoute);
+app.use("/api/algoritmo",cors(corsOptions),algoritmoRoute);
 
 app.use("/api-docs",swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 

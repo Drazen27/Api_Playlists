@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const firebase_1 = require("../../firebase");
 const router = express_1.default.Router();
 // getAlllist
-router.get('/listas/getAllLists', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/getAllLists', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Realiza una consulta a Firestore para obtener todas las listas de reproducción
         const listasRef = firebase_1.db.collection('playlist');
@@ -73,7 +73,7 @@ router.get('/listas/getAllLists', (req, res) => __awaiter(void 0, void 0, void 0
     }
 }));
 // Endpoint para obtener todas las listas de reproducción activas
-router.get('/listas/getAllListsActive', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/getAllListsActive', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Realiza una consulta a Firestore para obtener todas las listas de reproducción activas
         const listasRef = firebase_1.db.collection('playlist')
@@ -132,7 +132,7 @@ router.get('/listas/getAllListsActive', (req, res) => __awaiter(void 0, void 0, 
     }
 }));
 // Endpoint para obtener todas las listas de reproducción inactivas
-router.get('/listas/getAllListsInactive', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/getAllListsInactive', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Realiza una consulta a Firestore para obtener todas las listas de reproducción inactivas
         const listasRef = firebase_1.db.collection('playlist')
@@ -191,7 +191,7 @@ router.get('/listas/getAllListsInactive', (req, res) => __awaiter(void 0, void 0
     }
 }));
 // Define la ruta /listas/getList/:idList
-router.get('/listas/getList/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/getList/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const idLista = req.params.idList;
         // Verifica si la lista de reproducción existe
@@ -238,7 +238,7 @@ router.get('/listas/getList/:idList', (req, res) => __awaiter(void 0, void 0, vo
     }
 }));
 // Define la ruta /listas/getListsByName/:nombreLista
-router.get('/listas/getListsByName/:nombreLista', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/getListsByName/:nombreLista', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const nombreLista = req.params.nombreLista;
         // Realiza una consulta a Firestore para encontrar las listas con el mismo nombre
@@ -291,7 +291,7 @@ router.get('/listas/getListsByName/:nombreLista', (req, res) => __awaiter(void 0
         res.status(500).json(response);
     }
 }));
-router.get('/listas/getListsUserId/:idUser', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/getListsUserId/:idUser', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const idUser = req.params.idUser;
         // Realiza una consulta a Firestore para encontrar las listas con el mismo nombre
@@ -346,7 +346,7 @@ router.get('/listas/getListsUserId/:idUser', (req, res) => __awaiter(void 0, voi
         res.status(500).json(response);
     }
 }));
-router.get('/listas/getListsUserIdInactive/:idUser', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/getListsUserIdInactive/:idUser', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const idUser = req.params.idUser;
         // Realiza una consulta a Firestore para encontrar las listas con el mismo nombre
@@ -402,7 +402,7 @@ router.get('/listas/getListsUserIdInactive/:idUser', (req, res) => __awaiter(voi
     }
 }));
 //AddList
-router.post('/listas/addList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/addList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén los datos del cuerpo de la solicitud
         const { nombre, id_usuario, publico, canciones } = req.body;
@@ -456,7 +456,7 @@ router.post('/listas/addList', (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 // Define la ruta /listas/addListWithSong
-router.post('/listas/addListWithSong', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/addListWithSong', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén los datos del cuerpo de la solicitud
         const { nombre, id_usuario, publico, canciones } = req.body;
@@ -509,7 +509,7 @@ router.post('/listas/addListWithSong', (req, res) => __awaiter(void 0, void 0, v
         res.status(500).json(response);
     }
 }));
-router.post('/listas/addSongs/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/addSongs/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
@@ -575,7 +575,7 @@ router.post('/listas/addSongs/:idList', (req, res) => __awaiter(void 0, void 0, 
     }
 }));
 // Define la ruta DELETE /listas/deleteCancion/:idLista/
-router.delete('/listas/deleteSong/:idList/:idCancion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete('/deleteSong/:idList/:idCancion', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
@@ -651,7 +651,7 @@ router.delete('/listas/deleteSong/:idList/:idCancion', (req, res) => __awaiter(v
         res.status(500).json(response);
     }
 }));
-router.delete('/listas/deletePlaylist/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete('/deletePlaylist/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
@@ -694,7 +694,7 @@ router.delete('/listas/deletePlaylist/:idList', (req, res) => __awaiter(void 0, 
     }
 }));
 //desactivarPlaylist
-router.patch('/listas/deactivatePlaylist/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/deactivatePlaylist/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
@@ -748,7 +748,7 @@ router.patch('/listas/deactivatePlaylist/:idList', (req, res) => __awaiter(void 
     }
 }));
 //Activar playlist
-router.patch('/listas/activatePlaylist/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/activatePlaylist/:idList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
@@ -802,7 +802,7 @@ router.patch('/listas/activatePlaylist/:idList', (req, res) => __awaiter(void 0,
     }
 }));
 //Cambiar titulo
-router.patch('/listas/updateTitle/:idList/:nombre', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/updateTitle/:idList/:nombre', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
@@ -870,7 +870,7 @@ router.patch('/listas/updateTitle/:idList/:nombre', (req, res) => __awaiter(void
     }
 }));
 //Cambiar estado publico
-router.patch('/listas/updatePublic/:idList/:publico', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.patch('/updatePublic/:idList/:publico', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Obtén el ID de la lista de reproducción desde los parámetros de la URL
         const idLista = req.params.idList;
